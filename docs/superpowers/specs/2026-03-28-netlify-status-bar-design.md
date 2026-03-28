@@ -9,11 +9,13 @@
 
 A native macOS menu bar app that monitors all Netlify deployments across a user's account. Shows a live scrolling ticker of active deploys in the menu bar, with a dropdown listing all sites grouped by activity. No paywall, no single-project limit.
 
-**Target:** macOS 13 (Ventura)+
+**Target:** macOS 14 (Sonoma)+
 **Framework:** SwiftUI `MenuBarExtra` with `.window` style
 **Auth:** Netlify Personal Access Token, stored in Keychain
 
 > **Note on `.window` vs `.menu` style:** The `.menu` style renders a native `NSMenu` and does not support live SwiftUI views — menu items are rendered once on open and cannot update. Since the dropdown requires real-time elapsed build timers and conditional section headers, `.window` style is used instead. This renders the dropdown as a floating SwiftUI panel that updates live while open.
+
+> **Note on macOS 14 minimum:** `@Observable` (Observation framework) requires macOS 14 (Sonoma). Targeting macOS 14+ allows use of the modern `@Observable` macro throughout.
 
 ---
 
