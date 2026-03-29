@@ -1,0 +1,441 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 77;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		373C002649D467F58E8C28B4 /* NetlifyStatusBarApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2B03DDE1BBF0E4068DBA6EE /* NetlifyStatusBarApp.swift */; };
+		81CC2D9C1E4BD2151DF18DC4 /* NetlifyStatusBarTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C558737772F9BB842F88F47 /* NetlifyStatusBarTests.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		C9FC903A3411F41A607EE0DF /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = C09169CE4704663728B0CAA6 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 9E521C4EACDE7CD6CE0C1BAF;
+			remoteInfo = NetlifyStatusBar;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		2DBBCA9B5FB4697A05BED7A2 /* NetlifyStatusBar.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = NetlifyStatusBar.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		3527AECAAE199AAE4456592C /* .gitkeep */ = {isa = PBXFileReference; path = .gitkeep; sourceTree = "<group>"; };
+		41C647BB81B6DFB474EA4DFE /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		933DAE7FBC237F7E4929BA2D /* NetlifyStatusBar.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = NetlifyStatusBar.entitlements; sourceTree = "<group>"; };
+		9C558737772F9BB842F88F47 /* NetlifyStatusBarTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetlifyStatusBarTests.swift; sourceTree = "<group>"; };
+		C1781E986281CA94352C4FAF /* .gitkeep */ = {isa = PBXFileReference; path = .gitkeep; sourceTree = "<group>"; };
+		C2B03DDE1BBF0E4068DBA6EE /* NetlifyStatusBarApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetlifyStatusBarApp.swift; sourceTree = "<group>"; };
+		C4F76DFF6E9447DA8A9E6062 /* .gitkeep */ = {isa = PBXFileReference; path = .gitkeep; sourceTree = "<group>"; };
+		F230B2793E9D8F35282B6050 /* .gitkeep */ = {isa = PBXFileReference; path = .gitkeep; sourceTree = "<group>"; };
+		F2EF478C0272B2CE08E8B5F7 /* NetlifyStatusBarTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = NetlifyStatusBarTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+/* End PBXFileReference section */
+
+/* Begin PBXGroup section */
+		1C29986817B13D53CDE81E1F /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				2DBBCA9B5FB4697A05BED7A2 /* NetlifyStatusBar.app */,
+				F2EF478C0272B2CE08E8B5F7 /* NetlifyStatusBarTests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		311E20DD4B90EC4635738DE4 /* Network */ = {
+			isa = PBXGroup;
+			children = (
+				F230B2793E9D8F35282B6050 /* .gitkeep */,
+			);
+			path = Network;
+			sourceTree = "<group>";
+		};
+		3765A6633881FF056852354F = {
+			isa = PBXGroup;
+			children = (
+				E0AE910020106138D6E371F4 /* NetlifyStatusBar */,
+				E01748BBD88CB3974D8406BD /* NetlifyStatusBarTests */,
+				1C29986817B13D53CDE81E1F /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		A64A980655F08293D10C40B5 /* Domain */ = {
+			isa = PBXGroup;
+			children = (
+				C1781E986281CA94352C4FAF /* .gitkeep */,
+			);
+			path = Domain;
+			sourceTree = "<group>";
+		};
+		A96DB5D88538DA8C48B5EBD6 /* UI */ = {
+			isa = PBXGroup;
+			children = (
+				3527AECAAE199AAE4456592C /* .gitkeep */,
+			);
+			path = UI;
+			sourceTree = "<group>";
+		};
+		D69362778945BB3457E63D79 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				C4F76DFF6E9447DA8A9E6062 /* .gitkeep */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		E01748BBD88CB3974D8406BD /* NetlifyStatusBarTests */ = {
+			isa = PBXGroup;
+			children = (
+				9C558737772F9BB842F88F47 /* NetlifyStatusBarTests.swift */,
+			);
+			path = NetlifyStatusBarTests;
+			sourceTree = "<group>";
+		};
+		E0AE910020106138D6E371F4 /* NetlifyStatusBar */ = {
+			isa = PBXGroup;
+			children = (
+				41C647BB81B6DFB474EA4DFE /* Info.plist */,
+				933DAE7FBC237F7E4929BA2D /* NetlifyStatusBar.entitlements */,
+				C2B03DDE1BBF0E4068DBA6EE /* NetlifyStatusBarApp.swift */,
+				A64A980655F08293D10C40B5 /* Domain */,
+				D69362778945BB3457E63D79 /* Models */,
+				311E20DD4B90EC4635738DE4 /* Network */,
+				A96DB5D88538DA8C48B5EBD6 /* UI */,
+			);
+			path = NetlifyStatusBar;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		5C1E4AE904494178C908ECC3 /* NetlifyStatusBarTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 3104B40DF90BE0168A843DC6 /* Build configuration list for PBXNativeTarget "NetlifyStatusBarTests" */;
+			buildPhases = (
+				24429EF584D17C47168AE24C /* Sources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				721986B27AB5607B1411284E /* PBXTargetDependency */,
+			);
+			name = NetlifyStatusBarTests;
+			packageProductDependencies = (
+			);
+			productName = NetlifyStatusBarTests;
+			productReference = F2EF478C0272B2CE08E8B5F7 /* NetlifyStatusBarTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		9E521C4EACDE7CD6CE0C1BAF /* NetlifyStatusBar */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 90388BAEC7C7E519CF05FAFF /* Build configuration list for PBXNativeTarget "NetlifyStatusBar" */;
+			buildPhases = (
+				CC5CBB3B41EA8A1A7B81D922 /* Sources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = NetlifyStatusBar;
+			packageProductDependencies = (
+			);
+			productName = NetlifyStatusBar;
+			productReference = 2DBBCA9B5FB4697A05BED7A2 /* NetlifyStatusBar.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		C09169CE4704663728B0CAA6 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = YES;
+				LastUpgradeCheck = 1600;
+				TargetAttributes = {
+					5C1E4AE904494178C908ECC3 = {
+						DevelopmentTeam = "";
+						ProvisioningStyle = Automatic;
+					};
+					9E521C4EACDE7CD6CE0C1BAF = {
+						DevelopmentTeam = "";
+						ProvisioningStyle = Automatic;
+					};
+				};
+			};
+			buildConfigurationList = 858AED8D6FB0CC15049EAA6B /* Build configuration list for PBXProject "NetlifyStatusBar" */;
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				Base,
+				en,
+			);
+			mainGroup = 3765A6633881FF056852354F;
+			minimizedProjectReferenceProxies = 1;
+			preferredProjectObjectVersion = 77;
+			productRefGroup = 1C29986817B13D53CDE81E1F /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				9E521C4EACDE7CD6CE0C1BAF /* NetlifyStatusBar */,
+				5C1E4AE904494178C908ECC3 /* NetlifyStatusBarTests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXSourcesBuildPhase section */
+		24429EF584D17C47168AE24C /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				81CC2D9C1E4BD2151DF18DC4 /* NetlifyStatusBarTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		CC5CBB3B41EA8A1A7B81D922 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				373C002649D467F58E8C28B4 /* NetlifyStatusBarApp.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		721986B27AB5607B1411284E /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 9E521C4EACDE7CD6CE0C1BAF /* NetlifyStatusBar */;
+			targetProxy = C9FC903A3411F41A607EE0DF /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		0C21F5EC8F08B138C0397C88 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = NetlifyStatusBar/NetlifyStatusBar.entitlements;
+				COMBINE_HIDPI_IMAGES = YES;
+				ENABLE_HARDENED_RUNTIME = YES;
+				INFOPLIST_FILE = NetlifyStatusBar/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 14.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.azwandi.NetlifyStatusBar;
+				SDKROOT = macosx;
+			};
+			name = Debug;
+		};
+		25B60D50C9E317C68AAC23DF /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_STYLE = Automatic;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEVELOPMENT_TEAM = "";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 14.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				SWIFT_VERSION = 6.0;
+			};
+			name = Release;
+		};
+		7DBDDCF00DB71D7FEA602CC7 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				COMBINE_HIDPI_IMAGES = YES;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@loader_path/../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 14.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.azwandi.NetlifyStatusBarTests;
+				SDKROOT = macosx;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/NetlifyStatusBar.app/Contents/MacOS/NetlifyStatusBar";
+			};
+			name = Debug;
+		};
+		97DE08C39C577586581022E1 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_STYLE = Automatic;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEVELOPMENT_TEAM = "";
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"$(inherited)",
+					"DEBUG=1",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 14.0;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 6.0;
+			};
+			name = Debug;
+		};
+		A62EAA0E1DF68FC38951A3B8 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = NetlifyStatusBar/NetlifyStatusBar.entitlements;
+				COMBINE_HIDPI_IMAGES = YES;
+				ENABLE_HARDENED_RUNTIME = YES;
+				INFOPLIST_FILE = NetlifyStatusBar/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 14.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.azwandi.NetlifyStatusBar;
+				SDKROOT = macosx;
+			};
+			name = Release;
+		};
+		EF2AA85ACE75429FB0142CE3 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				COMBINE_HIDPI_IMAGES = YES;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@loader_path/../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 14.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.azwandi.NetlifyStatusBarTests;
+				SDKROOT = macosx;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/NetlifyStatusBar.app/Contents/MacOS/NetlifyStatusBar";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		3104B40DF90BE0168A843DC6 /* Build configuration list for PBXNativeTarget "NetlifyStatusBarTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				7DBDDCF00DB71D7FEA602CC7 /* Debug */,
+				EF2AA85ACE75429FB0142CE3 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		858AED8D6FB0CC15049EAA6B /* Build configuration list for PBXProject "NetlifyStatusBar" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				97DE08C39C577586581022E1 /* Debug */,
+				25B60D50C9E317C68AAC23DF /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		90388BAEC7C7E519CF05FAFF /* Build configuration list for PBXNativeTarget "NetlifyStatusBar" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				0C21F5EC8F08B138C0397C88 /* Debug */,
+				A62EAA0E1DF68FC38951A3B8 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = C09169CE4704663728B0CAA6 /* Project object */;
+}

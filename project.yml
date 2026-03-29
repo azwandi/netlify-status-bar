@@ -1,0 +1,44 @@
+name: NetlifyStatusBar
+options:
+  bundleIdPrefix: com.azwandi
+  deploymentTarget:
+    macOS: "14.0"
+  xcodeVersion: "16.0"
+  createIntermediateGroups: true
+
+settings:
+  base:
+    SWIFT_VERSION: "6.0"
+    MACOSX_DEPLOYMENT_TARGET: "14.0"
+    CODE_SIGN_STYLE: Automatic
+    DEVELOPMENT_TEAM: ""
+
+targets:
+  NetlifyStatusBar:
+    type: application
+    platform: macOS
+    deploymentTarget: "14.0"
+    sources:
+      - path: NetlifyStatusBar
+        excludes:
+          - "**/*.gitkeep"
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.azwandi.NetlifyStatusBar
+        INFOPLIST_FILE: NetlifyStatusBar/Info.plist
+        CODE_SIGN_ENTITLEMENTS: NetlifyStatusBar/NetlifyStatusBar.entitlements
+        ENABLE_HARDENED_RUNTIME: YES
+
+  NetlifyStatusBarTests:
+    type: bundle.unit-test
+    platform: macOS
+    deploymentTarget: "14.0"
+    sources:
+      - path: NetlifyStatusBarTests
+        excludes:
+          - "**/*.gitkeep"
+    dependencies:
+      - target: NetlifyStatusBar
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.azwandi.NetlifyStatusBarTests
