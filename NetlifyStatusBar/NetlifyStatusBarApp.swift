@@ -1,9 +1,24 @@
+// NetlifyStatusBar/NetlifyStatusBarApp.swift
 import SwiftUI
 
 @main
 struct NetlifyStatusBarApp: App {
+    @State private var monitor = DeployMonitor()
+
     var body: some Scene {
-        // Placeholder — will be replaced in Task 9
-        Settings { EmptyView() }
+        MenuBarExtra {
+            SiteListView()
+                .environment(monitor)
+        } label: {
+            MenuBarLabel()
+                .environment(monitor)
+        }
+        .menuBarExtraStyle(.window)
+
+        Window("Preferences", id: "preferences") {
+            PreferencesView()
+                .environment(monitor)
+        }
+        .windowResizability(.contentSize)
     }
 }
