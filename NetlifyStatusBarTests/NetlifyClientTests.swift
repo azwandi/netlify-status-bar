@@ -60,4 +60,31 @@ final class NetlifyClientTests: XCTestCase {
             // expected
         }
     }
+
+    func testFetchAllSitesReturnsMappedSites() async throws {
+        MockURLProtocol.requestHandler = { _ in
+            MockURLProtocol.jsonResponse(statusCode: 200, json: [
+                ["id": "site1", "name": "my-portfolio"],
+                ["id": "site2", "name": "shop-frontend"]
+            ])
+        }
+        let sites = try await client.fetchAllSites()
+        XCTAssertEqual(sites.count, 2)
+        XCTAssertEqual(sites[0].name, "my-portfolio")
+        XCTAssertEqual(sites[0].adminURL, URL(string: "https://app.netlify.com/sites/my-portfolio")!)
+    }
+
+    func testFetchAllSitesPaginatesUntilPartialPage() async throws {
+        var callCount = 0
+        MockURLProtocol.requestHandler = { _ in
+            callCount += 1
+            let json: [[String: String]] = callCount == 1
+                ? [["id": "a", "name": "site-a"], ["id": "b", "name": "site-b"]]
+                : [["id": "c", "name": "site-c"]]
+            return MockURLProtocol.jsonResponse(statusCode: 200, json: json)
+        }
+        let sites = try await client.fetchAllSites(perPage: 2)
+        XCTAssertEqual(sites.count, 3)
+        XCTAssertEqual(callCount, 2)
+    }
 }

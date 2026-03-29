@@ -60,6 +60,26 @@ actor NetlifyClient {
     func fetchCurrentUser() async throws -> NetlifyUser {
         try await request("api/v1/user")
     }
+
+    // MARK: - Sites
+
+    func fetchAllSites(perPage: Int = 100) async throws -> [Site] {
+        var all: [Site] = []
+        var page = 1
+        while true {
+            let batch: [APISite] = try await request(
+                "api/v1/sites",
+                queryItems: [
+                    URLQueryItem(name: "per_page", value: "\(perPage)"),
+                    URLQueryItem(name: "page", value: "\(page)")
+                ]
+            )
+            all += batch.map { $0.toSite() }
+            if batch.count < perPage { break }
+            page += 1
+        }
+        return all
+    }
 }
 
 // MARK: - API response types
@@ -72,5 +92,18 @@ struct NetlifyUser: Decodable {
     enum CodingKeys: String, CodingKey {
         case id, email
         case fullName = "full_name"
+    }
+}
+
+private struct APISite: Decodable {
+    let id: String
+    let name: String
+
+    func toSite() -> Site {
+        Site(
+            id: id,
+            name: name,
+            adminURL: URL(string: "https://app.netlify.com/sites/\(name)")!
+        )
     }
 }
