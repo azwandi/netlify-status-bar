@@ -1,0 +1,87 @@
+<h2>What does the dropdown show when you click the menu bar?</h2>
+<p class="subtitle">When you click the icon, a menu drops down. Pick the layout that works best for you.</p>
+
+<div class="cards">
+
+  <div class="card" data-choice="a" onclick="toggleSelect(this)">
+    <div class="card-image" style="background:#1e1e2e;padding:12px 16px;border-radius:6px;font-family:-apple-system,sans-serif;min-width:260px;">
+      <div style="color:#aaa;font-size:10px;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px;">Active Deploys</div>
+      <div style="background:#2a2a3e;border-radius:5px;padding:8px 10px;margin-bottom:4px;display:flex;justify-content:space-between;align-items:center;">
+        <div>
+          <div style="color:#e2e2e2;font-size:12px;">my-portfolio</div>
+          <div style="color:#f5a623;font-size:10px;">⟳ building · 1m 23s</div>
+        </div>
+        <span style="color:#f5a623;font-size:16px;">●</span>
+      </div>
+      <div style="color:#aaa;font-size:10px;text-transform:uppercase;letter-spacing:1px;margin:10px 0 8px;">All Sites</div>
+      <div style="background:#2a2a3e;border-radius:5px;padding:8px 10px;margin-bottom:4px;display:flex;justify-content:space-between;">
+        <div><div style="color:#e2e2e2;font-size:12px;">shop-frontend</div><div style="color:#22c55e;font-size:10px;">✓ deployed 3h ago</div></div>
+        <span style="color:#22c55e;font-size:16px;">●</span>
+      </div>
+      <div style="background:#2a2a3e;border-radius:5px;padding:8px 10px;margin-bottom:4px;display:flex;justify-content:space-between;">
+        <div><div style="color:#e2e2e2;font-size:12px;">api-docs</div><div style="color:#ef4444;font-size:10px;">✗ failed 12m ago</div></div>
+        <span style="color:#ef4444;font-size:16px;">●</span>
+      </div>
+      <div style="border-top:1px solid #333;margin-top:8px;padding-top:8px;color:#888;font-size:11px;">Preferences · Refresh · Quit</div>
+    </div>
+    <div class="card-body">
+      <h3>A — Grouped sections</h3>
+      <p>Active deploys pinned at top, then all sites below. Quick scan: what's happening vs. overall health.</p>
+    </div>
+  </div>
+
+  <div class="card" data-choice="b" onclick="toggleSelect(this)">
+    <div class="card-image" style="background:#1e1e2e;padding:12px 16px;border-radius:6px;font-family:-apple-system,sans-serif;min-width:260px;">
+      <div style="display:flex;align-items:center;gap:6px;margin-bottom:10px;">
+        <div style="flex:1;background:#2a2a3e;border-radius:4px;padding:4px 8px;color:#888;font-size:11px;">Search sites…</div>
+      </div>
+      <div style="display:flex;gap:6px;margin-bottom:10px;">
+        <span style="background:#00d4aa22;color:#00d4aa;font-size:10px;padding:2px 8px;border-radius:10px;cursor:pointer;">All</span>
+        <span style="background:#f5a62322;color:#f5a623;font-size:10px;padding:2px 8px;border-radius:10px;cursor:pointer;">Building</span>
+        <span style="background:#ef444422;color:#ef4444;font-size:10px;padding:2px 8px;border-radius:10px;cursor:pointer;">Failed</span>
+      </div>
+      <div style="background:#2a2a3e;border-radius:5px;padding:8px 10px;margin-bottom:4px;display:flex;justify-content:space-between;">
+        <div><div style="color:#e2e2e2;font-size:12px;">my-portfolio</div><div style="color:#f5a623;font-size:10px;">⟳ building · 1m 23s</div></div>
+        <span style="color:#f5a623;">●</span>
+      </div>
+      <div style="background:#2a2a3e;border-radius:5px;padding:8px 10px;margin-bottom:4px;display:flex;justify-content:space-between;">
+        <div><div style="color:#e2e2e2;font-size:12px;">shop-frontend</div><div style="color:#22c55e;font-size:10px;">✓ deployed 3h ago</div></div>
+        <span style="color:#22c55e;">●</span>
+      </div>
+      <div style="border-top:1px solid #333;margin-top:8px;padding-top:8px;color:#888;font-size:11px;">Preferences · Refresh · Quit</div>
+    </div>
+    <div class="card-body">
+      <h3>B — Filter tabs + search</h3>
+      <p>Flat list with filter chips (All / Building / Failed) and a search bar. Better for large numbers of sites.</p>
+    </div>
+  </div>
+
+  <div class="card" data-choice="c" onclick="toggleSelect(this)">
+    <div class="card-image" style="background:#1e1e2e;padding:12px 16px;border-radius:6px;font-family:-apple-system,sans-serif;min-width:260px;">
+      <div style="background:#2a2a3e;border-radius:5px;padding:8px 10px;margin-bottom:4px;">
+        <div style="display:flex;justify-content:space-between;align-items:center;">
+          <div style="color:#e2e2e2;font-size:12px;font-weight:600;">my-portfolio</div>
+          <span style="color:#f5a623;font-size:11px;">building</span>
+        </div>
+        <div style="color:#888;font-size:10px;margin-top:4px;">Branch: main · Commit: fix nav</div>
+        <div style="background:#333;border-radius:3px;height:4px;margin-top:6px;overflow:hidden;">
+          <div style="background:#f5a623;width:60%;height:100%;border-radius:3px;"></div>
+        </div>
+      </div>
+      <div style="background:#2a2a3e;border-radius:5px;padding:8px 10px;margin-bottom:4px;">
+        <div style="display:flex;justify-content:space-between;">
+          <div style="color:#e2e2e2;font-size:12px;font-weight:600;">shop-frontend</div>
+          <span style="color:#22c55e;font-size:11px;">✓ live</span>
+        </div>
+        <div style="color:#888;font-size:10px;margin-top:4px;">Branch: main · 3h ago</div>
+      </div>
+      <div style="border-top:1px solid #333;margin-top:8px;padding-top:8px;color:#888;font-size:11px;">Preferences · Refresh · Quit</div>
+    </div>
+    <div class="card-body">
+      <h3>C — Rich cards</h3>
+      <p>Each site shows branch, commit message, and a progress bar for active builds. More detail per site.</p>
+    </div>
+  </div>
+
+</div>
+<p class="subtitle" style="margin-top:16px;">Click to select, then tell me in the terminal.</p>

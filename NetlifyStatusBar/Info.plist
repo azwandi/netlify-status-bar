@@ -16,5 +16,7 @@
     <true/>
     <key>NSHumanReadableCopyright</key>
     <string></string>
+    <key>NSUserNotificationsUsageDescription</key>
+    <string>NetlifyStatusBar sends notifications when your deployments start, succeed, or fail.</string>
 </dict>
 </plist>

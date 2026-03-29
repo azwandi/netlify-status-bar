@@ -1,0 +1,7 @@
+{"type":"server-started","port":52785,"host":"127.0.0.1","url_host":"localhost","url":"http://localhost:52785","screen_dir":"/Users/azwandi/Development/netlify-status-bar/.superpowers/brainstorm/46733-1774687114"}
+{"type":"screen-added","file":"/Users/azwandi/Development/netlify-status-bar/.superpowers/brainstorm/46733-1774687114/menubar-item.html"}
+{"source":"user-event","type":"click","text":"⬡\n      \n        my-site → building…\n      \n    \n    \n      A — Scrolling ticker\n      Animates through active deployments. Shows site name + current status. When idle, collapses to just an icon.","choice":"a","id":null,"timestamp":1774687268204}
+{"type":"screen-added","file":"/Users/azwandi/Development/netlify-status-bar/.superpowers/brainstorm/46733-1774687114/dropdown-layout.html"}
+{"source":"user-event","type":"click","text":"Active Deploys\n      \n        \n          my-portfolio\n          ⟳ building · 1m 23s\n        \n        ●\n      \n      All Sites\n      \n        shop-frontend✓ deployed 3h ago\n        ●\n      \n      \n        api-docs✗ failed 12m ago\n        ●\n      \n      Preferences · Refresh · Quit\n    \n    \n      A — Grouped sections\n      Active deploys pinned at top, then all sites below. Quick scan: what's happening vs. overall health.","choice":"a","id":null,"timestamp":1774687350253}
+{"type":"screen-added","file":"/Users/azwandi/Development/netlify-status-bar/.superpowers/brainstorm/46733-1774687114/waiting.html"}
+{"type":"server-stopped","reason":"idle timeout"}
