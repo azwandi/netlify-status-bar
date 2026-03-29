@@ -87,4 +87,42 @@ final class NetlifyClientTests: XCTestCase {
         XCTAssertEqual(sites.count, 3)
         XCTAssertEqual(callCount, 2)
     }
+
+    func testFetchLatestDeployMapsStateCorrectly() async throws {
+        let now = ISO8601DateFormatter().string(from: Date())
+        MockURLProtocol.requestHandler = { _ in
+            MockURLProtocol.jsonResponse(statusCode: 200, json: [[
+                "id": "deploy1",
+                "site_id": "site1",
+                "state": "building",
+                "branch": "main",
+                "created_at": now
+            ]])
+        }
+        let deploy = try await client.fetchLatestDeploy(siteId: "site1")
+        XCTAssertNotNil(deploy)
+        XCTAssertEqual(deploy?.state, .building)
+        XCTAssertEqual(deploy?.siteId, "site1")
+        XCTAssertTrue(deploy!.state.isActive)
+    }
+
+    func testFetchLatestDeployReturnsNilForEmptyArray() async throws {
+        MockURLProtocol.requestHandler = { _ in
+            MockURLProtocol.jsonResponse(statusCode: 200, json: [] as [Any])
+        }
+        let deploy = try await client.fetchLatestDeploy(siteId: "site1")
+        XCTAssertNil(deploy)
+    }
+
+    func testFetchLatestDeployUnknownStateIsHandled() async throws {
+        let now = ISO8601DateFormatter().string(from: Date())
+        MockURLProtocol.requestHandler = { _ in
+            MockURLProtocol.jsonResponse(statusCode: 200, json: [[
+                "id": "d1", "site_id": "s1", "state": "some_future_state",
+                "branch": "main", "created_at": now
+            ]])
+        }
+        let deploy = try await client.fetchLatestDeploy(siteId: "s1")
+        XCTAssertEqual(deploy?.state, .unknown)
+    }
 }

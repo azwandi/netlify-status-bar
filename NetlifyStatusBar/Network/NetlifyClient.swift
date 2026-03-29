@@ -80,6 +80,19 @@ actor NetlifyClient {
         }
         return all
     }
+
+    // MARK: - Deploys
+
+    func fetchLatestDeploy(siteId: String) async throws -> Deploy? {
+        let deploys: [APIDeploy] = try await request(
+            "api/v1/deploys",
+            queryItems: [
+                URLQueryItem(name: "site_id", value: siteId),
+                URLQueryItem(name: "per_page", value: "1")
+            ]
+        )
+        return deploys.first?.toDeploy()
+    }
 }
 
 // MARK: - API response types
@@ -104,6 +117,33 @@ private struct APISite: Decodable {
             id: id,
             name: name,
             adminURL: URL(string: "https://app.netlify.com/sites/\(name)")!
+        )
+    }
+}
+
+private struct APIDeploy: Decodable {
+    let id: String
+    let siteId: String
+    let state: String
+    let branch: String
+    let createdAt: Date
+    let publishedAt: Date?
+
+    enum CodingKeys: String, CodingKey {
+        case id, state, branch
+        case siteId = "site_id"
+        case createdAt = "created_at"
+        case publishedAt = "published_at"
+    }
+
+    func toDeploy() -> Deploy {
+        Deploy(
+            id: id,
+            siteId: siteId,
+            state: DeployState(apiString: state),
+            branch: branch,
+            createdAt: createdAt,
+            deployedAt: publishedAt
         )
     }
 }
