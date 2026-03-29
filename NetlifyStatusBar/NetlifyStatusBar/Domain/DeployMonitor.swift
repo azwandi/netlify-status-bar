@@ -24,7 +24,10 @@ final class DeployMonitor {
     // MARK: - Lifecycle
 
     func start() {
-        guard let token = try? KeychainHelper.read() else { return }
+        guard let token = try? KeychainHelper.read() else {
+            isLoading = false
+            return
+        }
         client = NetlifyClient(token: token)
         startPathMonitor()
         Task { await refreshSites() }
@@ -70,7 +73,11 @@ final class DeployMonitor {
     private func startSiteRefreshTimer() {
         siteRefreshTask = Task {
             while !Task.isCancelled {
-                try? await Task.sleep(for: .seconds(600))
+                do {
+                    try await Task.sleep(for: .seconds(600))
+                } catch {
+                    return
+                }
                 await refreshSites()
             }
         }
@@ -89,7 +96,11 @@ final class DeployMonitor {
                     rateLimitBackoffUntil = nil
                     interval = Self.hasActiveDeploys(in: deploys) ? 10 : 60
                 }
-                try? await Task.sleep(for: .seconds(interval))
+                do {
+                    try await Task.sleep(for: .seconds(interval))
+                } catch {
+                    return  // Task was cancelled
+                }
             }
         }
     }
