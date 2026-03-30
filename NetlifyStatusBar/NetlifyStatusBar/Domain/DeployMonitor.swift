@@ -20,10 +20,13 @@ final class DeployMonitor {
     private var pathMonitor = NWPathMonitor()
     private var isOnline: Bool = true
     private var rateLimitBackoffUntil: Date? = nil
+    private var hasStarted: Bool = false
 
     // MARK: - Lifecycle
 
     func start() {
+        guard !hasStarted else { return }
+        hasStarted = true
         guard let token = try? KeychainHelper.read() else {
             isLoading = false
             return
@@ -37,6 +40,7 @@ final class DeployMonitor {
 
     func restart(withToken token: String) {
         stopAll()
+        hasStarted = true
         client = NetlifyClient(token: token)
         isUnauthorized = false
         lastError = nil

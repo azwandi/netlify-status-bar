@@ -48,7 +48,18 @@ actor NetlifyClient {
 
         do {
             let decoder = JSONDecoder()
-            decoder.dateDecodingStrategy = .iso8601
+            decoder.dateDecodingStrategy = .custom { decoder in
+                let string = try decoder.singleValueContainer().decode(String.self)
+                let isoFormatter = ISO8601DateFormatter()
+                isoFormatter.formatOptions = [.withInternetDateTime, .withFractionalSeconds]
+                if let date = isoFormatter.date(from: string) { return date }
+                isoFormatter.formatOptions = [.withInternetDateTime]
+                if let date = isoFormatter.date(from: string) { return date }
+                throw DecodingError.dataCorruptedError(
+                    in: try decoder.singleValueContainer(),
+                    debugDescription: "Cannot parse date: \(string)"
+                )
+            }
             return try decoder.decode(T.self, from: data)
         } catch {
             throw NetlifyError.decodingError(error.localizedDescription)
@@ -85,11 +96,8 @@ actor NetlifyClient {
 
     func fetchLatestDeploy(siteId: String) async throws -> Deploy? {
         let deploys: [APIDeploy] = try await request(
-            "api/v1/deploys",
-            queryItems: [
-                URLQueryItem(name: "site_id", value: siteId),
-                URLQueryItem(name: "per_page", value: "1")
-            ]
+            "api/v1/sites/\(siteId)/deploys",
+            queryItems: [URLQueryItem(name: "per_page", value: "1")]
         )
         return deploys.first?.toDeploy()
     }

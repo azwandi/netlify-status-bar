@@ -20,7 +20,7 @@ struct SiteListView: View {
                 siteListContent
             }
         }
-        .frame(width: 280)
+        .frame(width: 300)
         .onAppear { monitor.start() }
     }
 
@@ -38,7 +38,7 @@ struct SiteListView: View {
             ProgressView()
                 .scaleEffect(0.7)
             Text("Loading sites…")
-                .font(.system(size: 12))
+                .font(.system(size: 13))
                 .foregroundStyle(.secondary)
         }
         .padding()
@@ -51,10 +51,10 @@ struct SiteListView: View {
             errorRow("Token invalid or expired") { openWindow(id: "preferences") }
         } else if monitor.lastError != nil {
             Text("⚠ Last refresh failed")
-                .font(.system(size: 11))
+                .font(.system(size: 12))
                 .foregroundStyle(.secondary)
-                .padding(.horizontal, 12)
-                .padding(.vertical, 6)
+                .padding(.horizontal, 14)
+                .padding(.vertical, 8)
         }
 
         // Active deploys section
@@ -62,8 +62,8 @@ struct SiteListView: View {
             sectionHeader("Active Deploys")
             ForEach(activeSites) { site in
                 SiteRowView(site: site, deploy: monitor.deploys[site.id])
-                    .padding(.horizontal, 12)
-                    .padding(.vertical, 3)
+                    .padding(.horizontal, 14)
+                    .padding(.vertical, 5)
             }
             Divider().padding(.vertical, 4)
         }
@@ -74,12 +74,12 @@ struct SiteListView: View {
             VStack(spacing: 0) {
                 ForEach(monitor.sites) { site in
                     SiteRowView(site: site, deploy: monitor.deploys[site.id])
-                        .padding(.horizontal, 12)
-                        .padding(.vertical, 3)
+                        .padding(.horizontal, 14)
+                        .padding(.vertical, 5)
                 }
             }
         }
-        .frame(maxHeight: 300)
+        .frame(maxHeight: 340)
 
         Divider().padding(.vertical, 4)
 
@@ -96,8 +96,8 @@ struct SiteListView: View {
                 NSApplication.shared.terminate(nil)
             }
         }
-        .padding(.horizontal, 12)
-        .padding(.vertical, 2)
+        .padding(.horizontal, 14)
+        .padding(.vertical, 4)
         .buttonStyle(.plain)
         .font(.system(size: 13))
     }
@@ -106,11 +106,11 @@ struct SiteListView: View {
 
     private func sectionHeader(_ title: String) -> some View {
         Text(title.uppercased())
-            .font(.system(size: 9, weight: .semibold))
+            .font(.system(size: 10, weight: .semibold))
             .foregroundStyle(.secondary)
-            .padding(.horizontal, 12)
-            .padding(.top, 6)
-            .padding(.bottom, 2)
+            .padding(.horizontal, 14)
+            .padding(.top, 8)
+            .padding(.bottom, 3)
     }
 
     private func errorRow(_ message: String, action: @escaping () -> Void) -> some View {
@@ -119,11 +119,11 @@ struct SiteListView: View {
                 Image(systemName: "exclamationmark.triangle.fill")
                     .foregroundStyle(.orange)
                 Text(message)
-                    .font(.system(size: 12))
+                    .font(.system(size: 13))
             }
         }
         .buttonStyle(.plain)
-        .padding(.horizontal, 12)
-        .padding(.vertical, 4)
+        .padding(.horizontal, 14)
+        .padding(.vertical, 6)
     }
 }

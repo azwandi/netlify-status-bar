@@ -3,19 +3,21 @@ import SwiftUI
 
 struct MenuBarLabel: View {
     @Environment(DeployMonitor.self) private var monitor
-    @State private var tickerIndex: Int = 0
-    @State private var showTicker: Bool = true
-    @State private var tickerTimer: Timer? = nil
+    @State private var now: Date = Date()
 
-    private var activeDeploys: [(site: Site, deploy: Deploy)] {
-        monitor.sites.compactMap { site in
-            guard let deploy = monitor.deploys[site.id], deploy.state.isActive else { return nil }
+    private let timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
+    private static let relativeFormatter: RelativeDateTimeFormatter = {
+        let f = RelativeDateTimeFormatter()
+        f.unitsStyle = .abbreviated
+        return f
+    }()
+
+    private var mostRecent: (site: Site, deploy: Deploy)? {
+        monitor.sites.compactMap { site -> (Site, Deploy)? in
+            guard let deploy = monitor.deploys[site.id] else { return nil }
             return (site, deploy)
         }
-    }
-
-    private var hasFailures: Bool {
-        monitor.deploys.values.contains { $0.state == .error } && activeDeploys.isEmpty
+        .max(by: { $0.1.createdAt < $1.1.createdAt })
     }
 
     var body: some View {
@@ -23,68 +25,54 @@ struct MenuBarLabel: View {
             Image(systemName: "network")
                 .foregroundStyle(iconColor)
 
-            if !activeDeploys.isEmpty {
-                tickerText
-            } else if hasFailures {
-                failedText
+            if let entry = mostRecent {
+                Text(labelText(site: entry.site, deploy: entry.deploy))
+                    .font(.system(size: 11))
             }
         }
-        .onAppear { restartTicker() }
-        .onChange(of: activeDeploys.count) { restartTicker() }
-        .onDisappear { stopTicker() }
-    }
-
-    @ViewBuilder
-    private var tickerText: some View {
-        if showTicker && !activeDeploys.isEmpty {
-            let item = activeDeploys[tickerIndex % activeDeploys.count]
-            Text("\(item.site.name) → \(tickerLabel(item.deploy.state))…")
-                .font(.system(size: 11))
-                .transition(.opacity)
-                .id(tickerIndex)
-        }
-    }
-
-    private var failedText: some View {
-        let failedSite = monitor.sites.first { monitor.deploys[$0.id]?.state == .error }
-        return Text("\(failedSite?.name ?? "site") → failed")
-            .font(.system(size: 11))
-            .foregroundStyle(.red)
+        .onAppear { monitor.start() }
+        .onReceive(timer) { now = $0 }
     }
 
     private var iconColor: Color {
-        if hasFailures { return .red }
-        if !activeDeploys.isEmpty { return .orange }
-        return .primary
-    }
-
-    private func tickerLabel(_ state: DeployState) -> String {
-        switch state {
-        case .building: return "building"
-        case .enqueued: return "queued"
-        case .processing: return "processing"
-        default: return "deploying"
+        guard let deploy = mostRecent?.deploy else { return .primary }
+        switch deploy.state {
+        case .building, .enqueued, .processing: return .orange
+        case .error: return .red
+        default: return .primary
         }
     }
 
-    private func stopTicker() {
-        tickerTimer?.invalidate()
-        tickerTimer = nil
+    private func labelText(site: Site, deploy: Deploy) -> String {
+        let name = shortName(site.name)
+        switch deploy.state {
+        case .building:   return "\(name) · building \(elapsed(from: deploy.createdAt))"
+        case .enqueued:   return "\(name) · queued \(elapsed(from: deploy.createdAt))"
+        case .processing: return "\(name) · processing \(elapsed(from: deploy.createdAt))"
+        case .ready:      return "\(name) · deployed \(relative(from: deploy.deployedAt ?? deploy.createdAt))"
+        case .error:      return "\(name) · failed \(relative(from: deploy.createdAt))"
+        case .cancelled:  return "\(name) · cancelled \(relative(from: deploy.createdAt))"
+        default:          return name
+        }
     }
 
-    private func restartTicker() {
-        stopTicker()
-        guard !activeDeploys.isEmpty else { return }
-        tickerTimer = Timer.scheduledTimer(withTimeInterval: 3, repeats: true) { [self] _ in
-            guard !activeDeploys.isEmpty else {
-                stopTicker()
-                return
-            }
-            withAnimation(.easeInOut(duration: 0.3)) { showTicker = false }
-            DispatchQueue.main.asyncAfter(deadline: .now() + 0.35) {
-                tickerIndex += 1
-                withAnimation(.easeInOut(duration: 0.3)) { showTicker = true }
-            }
+    private func shortName(_ name: String) -> String {
+        guard name.count > 16 else { return name }
+        let parts = name.split(separator: "-")
+        if parts.count > 1, let first = parts.first {
+            let short = String(first)
+            return short.count > 16 ? String(short.prefix(14)) + "…" : short
         }
+        return String(name.prefix(14)) + "…"
+    }
+
+    private func elapsed(from date: Date) -> String {
+        let seconds = Int(now.timeIntervalSince(date))
+        if seconds < 60 { return "\(seconds)s" }
+        return "\(seconds / 60)m \(seconds % 60)s"
+    }
+
+    private func relative(from date: Date) -> String {
+        Self.relativeFormatter.localizedString(for: date, relativeTo: now)
     }
 }

@@ -19,7 +19,7 @@ struct SiteRowView: View {
         } label: {
             HStack {
                 statusIcon
-                VStack(alignment: .leading, spacing: 1) {
+                VStack(alignment: .leading, spacing: 2) {
                     Text(site.name)
                         .font(.system(size: 13))
                     if let deploy {
@@ -33,6 +33,7 @@ struct SiteRowView: View {
             .contentShape(Rectangle())
         }
         .buttonStyle(.plain)
+        .focusEffectDisabled()
         .onReceive(timer) { now = $0 }
     }
 
