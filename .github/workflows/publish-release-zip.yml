@@ -1,0 +1,41 @@
+name: Publish Release Zip
+
+on:
+  release:
+    types: [published]
+
+permissions:
+  contents: write
+
+jobs:
+  upload-macos-app:
+    runs-on: macos-15
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Generate Xcode project
+        run: xcodegen generate
+
+      - name: Archive app
+        run: |
+          xcodebuild archive \
+            -scheme NetlifyStatusBar \
+            -project NetlifyStatusBar.xcodeproj \
+            -configuration Release \
+            -archivePath build/NetlifyStatusBar.xcarchive \
+            CODE_SIGNING_ALLOWED=NO
+
+      - name: Package app zip
+        run: |
+          mkdir -p build/release-assets
+          ditto -c -k --sequesterRsrc --keepParent \
+            build/NetlifyStatusBar.xcarchive/Products/Applications/NetlifyStatusBar.app \
+            "build/release-assets/NetlifyStatusBar-${{ github.event.release.tag_name }}.zip"
+
+      - name: Upload zip to release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh release upload "${{ github.event.release.tag_name }}" build/release-assets/*.zip --clobber

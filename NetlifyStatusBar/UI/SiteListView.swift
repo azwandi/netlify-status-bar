@@ -49,7 +49,6 @@ struct SiteListView: View {
         .onAppear {
             monitor.start()
             monitor.wakeIfDisabled()
-            updater.start()
         }
     }
 
@@ -126,9 +125,9 @@ struct SiteListView: View {
 
         // Footer actions
         footerButton("Check for Updates…") {
-            updater.checkForUpdates()
+            Task { await updater.checkForUpdates() }
         }
-        .disabled(!updater.canCheckForUpdates)
+        .disabled(updater.isCheckingForUpdates)
         footerButton("Refresh Now") {
             Task { await monitor.refreshNow() }
         }
@@ -144,7 +143,15 @@ struct SiteListView: View {
             .foregroundStyle(.secondary)
             .padding(.horizontal, 16)
             .padding(.top, 4)
-            .padding(.bottom, 2)
+            .padding(.bottom, updater.statusMessage == nil ? 2 : 0)
+        if let statusMessage = updater.statusMessage {
+            Text(statusMessage)
+                .font(.system(size: 11))
+                .foregroundStyle(.secondary)
+                .padding(.horizontal, 16)
+                .padding(.top, 2)
+                .padding(.bottom, 2)
+        }
         footerButton("Quit") {
             NSApplication.shared.terminate(nil)
         }
