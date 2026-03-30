@@ -6,12 +6,23 @@ import Network
 @Observable
 @MainActor
 final class DeployMonitor {
+    enum PollingState: Equatable {
+        case active
+        case idle
+        case disabled
+    }
+
+    private static let activeDuration: TimeInterval = 120
+    private static let idleDuration: TimeInterval = 1800
+
     // MARK: - Published state
     var sites: [Site] = []
     var deploys: [String: Deploy] = [:]  // keyed by siteId
     var isLoading: Bool = true
     var lastError: Error? = nil
     var isUnauthorized: Bool = false
+    var pollingState: PollingState = .active
+    var accountDisplayName: String? = nil
 
     // MARK: - Private
     private var client: NetlifyClient?
@@ -21,6 +32,8 @@ final class DeployMonitor {
     private var isOnline: Bool = true
     private var rateLimitBackoffUntil: Date? = nil
     private var hasStarted: Bool = false
+    private var activeUntil: Date?
+    private var idleUntil: Date?
 
     // MARK: - Lifecycle
 
@@ -32,6 +45,7 @@ final class DeployMonitor {
             return
         }
         client = NetlifyClient(token: token)
+        enterActiveState()
         startPathMonitor()
         startDeployPolling()
         startSiteRefreshTimer()
@@ -44,6 +58,7 @@ final class DeployMonitor {
         isUnauthorized = false
         lastError = nil
         isLoading = true
+        enterActiveState()
         pathMonitor = NWPathMonitor()
         startDeployPolling()
         startSiteRefreshTimer()
@@ -56,10 +71,47 @@ final class DeployMonitor {
         pathMonitor.cancel()
     }
 
+    func wakeIfDisabled() {
+        guard pollingState == .disabled else { return }
+        enterActiveState()
+        isLoading = true
+    }
+
+    func refreshNow() async {
+        enterActiveState()
+        isLoading = true
+        await refreshIdentity()
+        await refreshSites()
+        let detectedNewDeploy = await pollDeploys()
+        updatePollingState(afterDetectingNewDeploy: detectedNewDeploy)
+    }
+
+    func disable() {
+        enterDisabledState()
+        isLoading = false
+    }
+
     // MARK: - Site refresh (startup + every 10 min)
 
+    func refreshIdentity() async {
+        guard let client else { return }
+        do {
+            async let user = client.fetchCurrentUser()
+            async let accounts = client.fetchAccounts()
+
+            let (currentUser, availableAccounts) = try await (user, accounts)
+            accountDisplayName = Self.accountLabel(user: currentUser, accounts: availableAccounts)
+            lastError = nil
+            isUnauthorized = false
+        } catch NetlifyError.unauthorized {
+            isUnauthorized = true
+        } catch {
+            lastError = error
+        }
+    }
+
     func refreshSites() async {
-        guard let client, isOnline else { return }
+        guard pollingState != .disabled, let client, isOnline else { return }
         do {
             let newSites = try await client.fetchAllSites()
             sites = newSites
@@ -80,6 +132,7 @@ final class DeployMonitor {
                 } catch {
                     return
                 }
+                await refreshIdentity()
                 await refreshSites()
             }
         }
@@ -89,15 +142,27 @@ final class DeployMonitor {
 
     private func startDeployPolling() {
         deployPollTask = Task {
+            await refreshIdentity()
             await refreshSites()
             while !Task.isCancelled {
-                await pollDeploys()
+                if pollingState == .disabled {
+                    do {
+                        try await Task.sleep(for: .seconds(1))
+                    } catch {
+                        return
+                    }
+                    continue
+                }
+
+                let detectedNewDeploy = await pollDeploys()
+                updatePollingState(afterDetectingNewDeploy: detectedNewDeploy)
+
                 let interval: Double
                 if let backoffUntil = rateLimitBackoffUntil, Date() < backoffUntil {
                     interval = 300
                 } else {
                     rateLimitBackoffUntil = nil
-                    interval = Self.hasActiveDeploys(in: deploys) ? 10 : 60
+                    interval = pollingState == .active ? 10 : 60
                 }
                 do {
                     try await Task.sleep(for: .seconds(interval))
@@ -108,14 +173,15 @@ final class DeployMonitor {
         }
     }
 
-    func pollDeploys() async {
+    @discardableResult
+    func pollDeploys() async -> Bool {
         guard let client, isOnline else {
             if client != nil { isLoading = false }
-            return
+            return false
         }
         guard !sites.isEmpty else {
-            if client != nil { isLoading = false }
-            return
+            isLoading = false
+            return false
         }
         do {
             var newDeploys: [String: Deploy] = [:]
@@ -130,21 +196,26 @@ final class DeployMonitor {
                     newDeploys[siteId] = deploy
                 }
             }
+            let detectedNewDeploy = Self.hasNewDeploys(old: deploys, new: newDeploys)
             let transitions = Self.diffDeploys(old: deploys, new: newDeploys)
             fireNotifications(for: transitions)
             deploys = newDeploys
             lastError = nil
             isUnauthorized = false
             isLoading = false
+            return detectedNewDeploy
         } catch NetlifyError.unauthorized {
             isUnauthorized = true
             isLoading = false
+            return false
         } catch NetlifyError.rateLimited {
             rateLimitBackoffUntil = Date().addingTimeInterval(300)
             isLoading = false
+            return false
         } catch {
             lastError = error
             isLoading = false
+            return false
         }
     }
 
@@ -172,6 +243,43 @@ final class DeployMonitor {
             case .failed:
                 NotificationManager.shared.notifyDeployFailed(siteName: site.name, deployId: t.deployId, adminURL: site.adminURL)
             }
+        }
+    }
+
+    private func enterActiveState(now: Date = Date()) {
+        pollingState = .active
+        activeUntil = now.addingTimeInterval(Self.activeDuration)
+        idleUntil = nil
+    }
+
+    private func enterIdleState(now: Date = Date()) {
+        pollingState = .idle
+        activeUntil = nil
+        idleUntil = now.addingTimeInterval(Self.idleDuration)
+    }
+
+    private func enterDisabledState() {
+        pollingState = .disabled
+        activeUntil = nil
+        idleUntil = nil
+    }
+
+    private func updatePollingState(afterDetectingNewDeploy detectedNewDeploy: Bool, now: Date = Date()) {
+        switch pollingState {
+        case .active:
+            if detectedNewDeploy {
+                activeUntil = now.addingTimeInterval(Self.activeDuration)
+            } else if let activeUntil, now >= activeUntil {
+                enterIdleState(now: now)
+            }
+        case .idle:
+            if detectedNewDeploy {
+                enterActiveState(now: now)
+            } else if let idleUntil, now >= idleUntil {
+                enterDisabledState()
+            }
+        case .disabled:
+            break
         }
     }
 
@@ -209,6 +317,32 @@ final class DeployMonitor {
 
     nonisolated static func hasActiveDeploys(in deploys: [String: Deploy]) -> Bool {
         deploys.values.contains { $0.state.isActive }
+    }
+
+    nonisolated static func hasNewDeploys(old: [String: Deploy], new: [String: Deploy]) -> Bool {
+        new.contains { siteId, newDeploy in
+            guard let oldDeploy = old[siteId] else { return true }
+            return oldDeploy.id != newDeploy.id
+        }
+    }
+
+    nonisolated static func accountLabel(user: NetlifyUser, accounts: [NetlifyAccount]) -> String {
+        let owner = user.fullName ?? user.email
+        let accountNames = Array(
+            NSOrderedSet(array: accounts.map { $0.name }.filter { !$0.isEmpty })
+        ) as? [String] ?? []
+
+        guard !accountNames.isEmpty else { return owner }
+        if accountNames.count == 1 {
+            return "\(owner) • \(accountNames[0])"
+        }
+
+        let visibleAccounts = accountNames.prefix(2).joined(separator: ", ")
+        let extraCount = accountNames.count - 2
+        if extraCount > 0 {
+            return "\(owner) • \(visibleAccounts) +\(extraCount)"
+        }
+        return "\(owner) • \(visibleAccounts)"
     }
 }
 

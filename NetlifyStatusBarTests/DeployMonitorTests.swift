@@ -66,4 +66,41 @@ final class DeployMonitorTests: XCTestCase {
         ]
         XCTAssertFalse(DeployMonitor.hasActiveDeploys(in: deploys))
     }
+
+    func testHasNewDeploysDetectsBrandNewSiteDeploy() {
+        let old: [String: Deploy] = [:]
+        let new: [String: Deploy] = [
+            "site1": Deploy(id: "d1", siteId: "site1", state: .ready,
+                            branch: "main", createdAt: Date(), deployedAt: Date())
+        ]
+
+        XCTAssertTrue(DeployMonitor.hasNewDeploys(old: old, new: new))
+    }
+
+    func testHasNewDeploysDetectsLatestDeployIdChange() {
+        let timestamp = Date()
+        let old: [String: Deploy] = [
+            "site1": Deploy(id: "d1", siteId: "site1", state: .ready,
+                            branch: "main", createdAt: timestamp, deployedAt: timestamp)
+        ]
+        let new: [String: Deploy] = [
+            "site1": Deploy(id: "d2", siteId: "site1", state: .building,
+                            branch: "main", createdAt: timestamp.addingTimeInterval(10), deployedAt: nil)
+        ]
+
+        XCTAssertTrue(DeployMonitor.hasNewDeploys(old: old, new: new))
+    }
+
+    func testHasNewDeploysIgnoresSameDeployId() {
+        let timestamp = Date()
+        let oldDeploy = Deploy(id: "d1", siteId: "site1", state: .building,
+                               branch: "main", createdAt: timestamp, deployedAt: nil)
+        let old: [String: Deploy] = ["site1": oldDeploy]
+        let new: [String: Deploy] = [
+            "site1": Deploy(id: "d1", siteId: "site1", state: .ready,
+                            branch: "main", createdAt: timestamp, deployedAt: timestamp.addingTimeInterval(30))
+        ]
+
+        XCTAssertFalse(DeployMonitor.hasNewDeploys(old: old, new: new))
+    }
 }

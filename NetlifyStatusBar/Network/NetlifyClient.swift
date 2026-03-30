@@ -72,6 +72,10 @@ actor NetlifyClient {
         try await request("api/v1/user")
     }
 
+    func fetchAccounts() async throws -> [NetlifyAccount] {
+        try await request("api/v1/accounts")
+    }
+
     // MARK: - Sites
 
     func fetchAllSites(perPage: Int = 100) async throws -> [Site] {
@@ -114,6 +118,12 @@ struct NetlifyUser: Decodable {
         case id, email
         case fullName = "full_name"
     }
+}
+
+struct NetlifyAccount: Decodable, Equatable {
+    let id: String
+    let name: String
+    let slug: String?
 }
 
 private struct APISite: Decodable {

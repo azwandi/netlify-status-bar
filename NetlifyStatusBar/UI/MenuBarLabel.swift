@@ -21,19 +21,28 @@ struct MenuBarLabel: View {
     }
 
     var body: some View {
-        HStack(spacing: 4) {
-            Image(nsImage: dotImage(color: dotNSColor))
-                .opacity(isActive ? (pulse ? 0.3 : 1.0) : 1.0)
-                .animation(
-                    isActive ? .easeInOut(duration: 0.7).repeatForever(autoreverses: true) : .default,
-                    value: pulse
-                )
-                .onAppear { if isActive { pulse = true } }
-                .onChange(of: isActive) { pulse = $0 }
-
-            if let entry = mostRecent, now.timeIntervalSince(entry.deploy.createdAt) < 1800 {
-                Text(labelText(site: entry.site, deploy: entry.deploy))
+        Group {
+            if monitor.pollingState == .disabled {
+                Text("Netlify")
                     .font(.system(size: 11))
+            } else {
+                HStack(spacing: 4) {
+                    Image(nsImage: dotImage(color: dotNSColor))
+                        .opacity(isActive ? (pulse ? 0.3 : 1.0) : 1.0)
+                        .animation(
+                            isActive ? .easeInOut(duration: 0.7).repeatForever(autoreverses: true) : .default,
+                            value: pulse
+                        )
+                        .onAppear { if isActive { pulse = true } }
+                        .onChange(of: isActive) {
+                            pulse = isActive
+                        }
+
+                    if let entry = mostRecent, now.timeIntervalSince(entry.deploy.createdAt) < 1800 {
+                        Text(labelText(site: entry.site, deploy: entry.deploy))
+                            .font(.system(size: 11))
+                    }
+                }
             }
         }
         .onAppear { monitor.start() }

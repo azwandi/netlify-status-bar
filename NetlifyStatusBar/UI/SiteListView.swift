@@ -29,7 +29,10 @@ struct SiteListView: View {
             }
         }
         .frame(width: 300)
-        .onAppear { monitor.start() }
+        .onAppear {
+            monitor.start()
+            monitor.wakeIfDisabled()
+        }
     }
 
     // MARK: - States
@@ -54,6 +57,23 @@ struct SiteListView: View {
 
     @ViewBuilder
     private var siteListContent: some View {
+        if let accountDisplayName = monitor.accountDisplayName {
+            VStack(alignment: .leading, spacing: 2) {
+                Text("NETLIFY ACCOUNT")
+                    .font(.system(size: 10, weight: .semibold))
+                    .foregroundStyle(.secondary)
+                Text(accountDisplayName)
+                    .font(.system(size: 12))
+                    .lineLimit(2)
+                    .fixedSize(horizontal: false, vertical: true)
+            }
+            .padding(.horizontal, 14)
+            .padding(.top, 10)
+            .padding(.bottom, 8)
+
+            Divider().padding(.bottom, 4)
+        }
+
         // Error banners
         if monitor.isUnauthorized {
             errorRow("Token invalid or expired") { openPreferences() }
@@ -88,7 +108,10 @@ struct SiteListView: View {
 
         // Footer actions
         footerButton("Refresh Now") {
-            Task { await monitor.pollDeploys() }
+            Task { await monitor.refreshNow() }
+        }
+        footerButton("Disable") {
+            monitor.disable()
         }
         footerButton("Preferences…") {
             openPreferences()

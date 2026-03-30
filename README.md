@@ -10,7 +10,9 @@ A macOS menu bar app that monitors all Netlify deployments across your account �
 - **Live status bar** — shows the most recent deploy with project name and elapsed/relative time; hides text after 30 minutes of inactivity
 - **Pulsing indicator** — dot animates while a build is in progress
 - **All projects** — monitors every site in your Netlify account simultaneously, sorted by latest activity
-- **Adaptive polling** — checks every 10s during active builds, 60s when idle; starts immediately on launch
+- **Account header** — shows the current Netlify user plus account/team names at the top of the dropdown
+- **Stateful polling** — starts in an active 10s mode, cools to 60s idle checks, then disables itself after 30 minutes of no new deploys until you click the menu bar app again
+- **Manual controls** — use **Refresh Now** to wake the app into active polling, or **Disable** to silence polling immediately
 - **Notifications** — get notified when a deploy starts, succeeds, or fails
 - **Grouped dropdown** — active deploys pinned at the top, up to 15 recent sites listed below
 - **Click to open** — clicking any site row opens it in the Netlify dashboard
@@ -27,6 +29,12 @@ A macOS menu bar app that monitors all Netlify deployments across your account �
 3. Paste your Netlify Personal Access Token and click **Save**
 
 The app will immediately begin polling your account and updating the status bar.
+
+### Polling States
+
+- **ACTIVE** — polls every 10 seconds for 2 minutes after launch or whenever a new deploy is detected
+- **IDLE** — polls every 60 seconds for up to 30 minutes when deploy activity has cooled down
+- **DISABLED** — stops polling and shows `Netlify` in the menu bar until you open the menu or choose **Refresh Now**
 
 ## Building
 
