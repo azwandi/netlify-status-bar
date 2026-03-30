@@ -5,6 +5,7 @@ struct SiteListView: View {
     @Environment(DeployMonitor.self) private var monitor
     @Environment(\.openWindow) private var openWindow
     @State private var hasToken: Bool = (try? KeychainHelper.read()) != nil
+    let updater: AppUpdater
 
     private var sortedSites: [Site] {
         monitor.sites.sorted {
@@ -16,6 +17,22 @@ struct SiteListView: View {
 
     private var activeSites: [Site] {
         sortedSites.filter { monitor.deploys[$0.id]?.state.isActive == true }
+    }
+
+    private var versionText: String {
+        let shortVersion = Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as? String
+        let buildNumber = Bundle.main.object(forInfoDictionaryKey: "CFBundleVersion") as? String
+
+        switch (shortVersion, buildNumber) {
+        case let (shortVersion?, buildNumber?) where shortVersion != buildNumber:
+            return "Version \(shortVersion) (\(buildNumber))"
+        case let (shortVersion?, _):
+            return "Version \(shortVersion)"
+        case let (_, buildNumber?):
+            return "Build \(buildNumber)"
+        default:
+            return "Version unavailable"
+        }
     }
 
     var body: some View {
@@ -32,6 +49,7 @@ struct SiteListView: View {
         .onAppear {
             monitor.start()
             monitor.wakeIfDisabled()
+            updater.start()
         }
     }
 
@@ -107,6 +125,10 @@ struct SiteListView: View {
         Divider().padding(.vertical, 4)
 
         // Footer actions
+        footerButton("Check for Updates…") {
+            updater.checkForUpdates()
+        }
+        .disabled(!updater.canCheckForUpdates)
         footerButton("Refresh Now") {
             Task { await monitor.refreshNow() }
         }
@@ -117,6 +139,12 @@ struct SiteListView: View {
             openPreferences()
         }
         Divider().padding(.vertical, 2)
+        Text(versionText)
+            .font(.system(size: 11))
+            .foregroundStyle(.secondary)
+            .padding(.horizontal, 16)
+            .padding(.top, 4)
+            .padding(.bottom, 2)
         footerButton("Quit") {
             NSApplication.shared.terminate(nil)
         }

@@ -4,10 +4,11 @@ import SwiftUI
 @main
 struct NetlifyStatusBarApp: App {
     @State private var monitor = DeployMonitor()
+    @State private var updater = AppUpdater()
 
     var body: some Scene {
         MenuBarExtra {
-            SiteListView()
+            SiteListView(updater: updater)
                 .environment(monitor)
         } label: {
             MenuBarLabel()

@@ -13,6 +13,11 @@ settings:
     CODE_SIGN_STYLE: Automatic
     DEVELOPMENT_TEAM: ""
 
+packages:
+  Sparkle:
+    url: https://github.com/sparkle-project/Sparkle
+    from: 2.7.0
+
 targets:
   NetlifyStatusBar:
     type: application
@@ -28,6 +33,10 @@ targets:
         INFOPLIST_FILE: NetlifyStatusBar/Info.plist
         CODE_SIGN_ENTITLEMENTS: NetlifyStatusBar/NetlifyStatusBar.entitlements
         ENABLE_HARDENED_RUNTIME: YES
+        SPARKLE_APPCAST_URL: "https://azwandi.github.io/netlify-status-bar/appcast.xml"
+        SPARKLE_PUBLIC_ED_KEY: ""
+    dependencies:
+      - package: Sparkle
 
   NetlifyStatusBarTests:
     type: bundle.unit-test

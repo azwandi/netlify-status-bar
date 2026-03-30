@@ -13,6 +13,7 @@
 		37B9158AECB605B441B386FF /* SiteListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7C8980C45AC6393D9AC9786 /* SiteListView.swift */; };
 		37DEF992055470C13495DFC5 /* Site.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5D6A98C167FD8A2C7B6E551 /* Site.swift */; };
 		48DD1B63A0BA776076FF3E38 /* NetlifyClientTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A7598346774B4E445FB8B1A /* NetlifyClientTests.swift */; };
+		4FA7F84A83BB3E336DFED8BF /* Sparkle in Frameworks */ = {isa = PBXBuildFile; productRef = 309B97DC42B1F50814BA27B6 /* Sparkle */; };
 		6A0DB0CD553BDA56695D2729 /* SiteRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFE424AF47CD7FE214023538 /* SiteRowView.swift */; };
 		727F2B42DD3777A6652A4F73 /* DeployMonitor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B446C38B38BCB7F7ABC4602 /* DeployMonitor.swift */; };
 		78081EE4897FD089ACE952F1 /* KeychainHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75B040E4BDC6F181B27236F7 /* KeychainHelper.swift */; };
@@ -24,6 +25,7 @@
 		ADA0BAF5C43E9CA1AC223FD9 /* DeployMonitorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4EDDD6C065AF11728668E8C1 /* DeployMonitorTests.swift */; };
 		D04538818F0E222BFB58A329 /* PreferencesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98BC400B0CA129F2633DFBD0 /* PreferencesView.swift */; };
 		F4F8DB735694AFF28C5E3AC9 /* ModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23A3675CC12EA0EA5E6C7204 /* ModelTests.swift */; };
+		F6C87E302A3339AD91D68FF4 /* AppUpdater.swift in Sources */ = {isa = PBXBuildFile; fileRef = 717D5C3ECD8A2C6679009C5B /* AppUpdater.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -48,6 +50,7 @@
 		4AD2104FDF65F7F70E75D58B /* KeychainHelperTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeychainHelperTests.swift; sourceTree = "<group>"; };
 		4EDDD6C065AF11728668E8C1 /* DeployMonitorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeployMonitorTests.swift; sourceTree = "<group>"; };
 		6C28339CE1FF3BBAB862FC3A /* NotificationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationManager.swift; sourceTree = "<group>"; };
+		717D5C3ECD8A2C6679009C5B /* AppUpdater.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppUpdater.swift; sourceTree = "<group>"; };
 		75B040E4BDC6F181B27236F7 /* KeychainHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeychainHelper.swift; sourceTree = "<group>"; };
 		933DAE7FBC237F7E4929BA2D /* NetlifyStatusBar.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = NetlifyStatusBar.entitlements; sourceTree = "<group>"; };
 		98BC400B0CA129F2633DFBD0 /* PreferencesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreferencesView.swift; sourceTree = "<group>"; };
@@ -62,6 +65,17 @@
 		F230B2793E9D8F35282B6050 /* .gitkeep */ = {isa = PBXFileReference; path = .gitkeep; sourceTree = "<group>"; };
 		F2EF478C0272B2CE08E8B5F7 /* NetlifyStatusBarTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = NetlifyStatusBarTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		2AECE69668B8BD5731CF27AA /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				4FA7F84A83BB3E336DFED8BF /* Sparkle in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
 		1C29986817B13D53CDE81E1F /* Products */ = {
@@ -114,6 +128,7 @@
 		C4C44B0122DCE968ADD42C65 /* Domain */ = {
 			isa = PBXGroup;
 			children = (
+				717D5C3ECD8A2C6679009C5B /* AppUpdater.swift */,
 				3B446C38B38BCB7F7ABC4602 /* DeployMonitor.swift */,
 				75B040E4BDC6F181B27236F7 /* KeychainHelper.swift */,
 				6C28339CE1FF3BBAB862FC3A /* NotificationManager.swift */,
@@ -192,6 +207,7 @@
 			buildConfigurationList = 90388BAEC7C7E519CF05FAFF /* Build configuration list for PBXNativeTarget "NetlifyStatusBar" */;
 			buildPhases = (
 				CC5CBB3B41EA8A1A7B81D922 /* Sources */,
+				2AECE69668B8BD5731CF27AA /* Frameworks */,
 			);
 			buildRules = (
 			);
@@ -199,6 +215,7 @@
 			);
 			name = NetlifyStatusBar;
 			packageProductDependencies = (
+				309B97DC42B1F50814BA27B6 /* Sparkle */,
 			);
 			productName = NetlifyStatusBar;
 			productReference = 2DBBCA9B5FB4697A05BED7A2 /* NetlifyStatusBar.app */;
@@ -232,6 +249,9 @@
 			);
 			mainGroup = 3765A6633881FF056852354F;
 			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				1F75BBA49D7A76A3DF70398C /* XCRemoteSwiftPackageReference "Sparkle" */,
+			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 1C29986817B13D53CDE81E1F /* Products */;
 			projectDirPath = "";
@@ -261,6 +281,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F6C87E302A3339AD91D68FF4 /* AppUpdater.swift in Sources */,
 				8DEA73A316B47F985F2EA11B /* Deploy.swift in Sources */,
 				727F2B42DD3777A6652A4F73 /* DeployMonitor.swift in Sources */,
 				78081EE4897FD089ACE952F1 /* KeychainHelper.swift in Sources */,
@@ -301,6 +322,8 @@
 				MACOSX_DEPLOYMENT_TARGET = 14.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.azwandi.NetlifyStatusBar;
 				SDKROOT = macosx;
+				SPARKLE_APPCAST_URL = "https://azwandi.github.io/netlify-status-bar/appcast.xml";
+				SPARKLE_PUBLIC_ED_KEY = "";
 			};
 			name = Debug;
 		};
@@ -459,6 +482,8 @@
 				MACOSX_DEPLOYMENT_TARGET = 14.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.azwandi.NetlifyStatusBar;
 				SDKROOT = macosx;
+				SPARKLE_APPCAST_URL = "https://azwandi.github.io/netlify-status-bar/appcast.xml";
+				SPARKLE_PUBLIC_ED_KEY = "";
 			};
 			name = Release;
 		};
@@ -510,6 +535,25 @@
 			defaultConfigurationName = Debug;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		1F75BBA49D7A76A3DF70398C /* XCRemoteSwiftPackageReference "Sparkle" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/sparkle-project/Sparkle";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 2.7.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		309B97DC42B1F50814BA27B6 /* Sparkle */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 1F75BBA49D7A76A3DF70398C /* XCRemoteSwiftPackageReference "Sparkle" */;
+			productName = Sparkle;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = C09169CE4704663728B0CAA6 /* Project object */;
 }

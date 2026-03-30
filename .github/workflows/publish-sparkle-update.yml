@@ -1,0 +1,64 @@
+name: Publish Sparkle Update
+
+on:
+  release:
+    types: [published]
+
+permissions:
+  contents: write
+
+jobs:
+  publish-update:
+    runs-on: macos-15
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Validate Sparkle secrets
+        env:
+          SPARKLE_PRIVATE_KEY: ${{ secrets.SPARKLE_PRIVATE_KEY }}
+          SPARKLE_PUBLIC_ED_KEY: ${{ secrets.SPARKLE_PUBLIC_ED_KEY }}
+        run: |
+          if [[ -z "$SPARKLE_PRIVATE_KEY" || -z "$SPARKLE_PUBLIC_ED_KEY" ]]; then
+            echo "SPARKLE_PRIVATE_KEY and SPARKLE_PUBLIC_ED_KEY must be configured in GitHub Secrets." >&2
+            exit 1
+          fi
+
+      - name: Generate Xcode project
+        run: xcodegen generate
+
+      - name: Build release archive and appcast
+        env:
+          SPARKLE_PRIVATE_KEY: ${{ secrets.SPARKLE_PRIVATE_KEY }}
+          SPARKLE_PUBLIC_ED_KEY: ${{ secrets.SPARKLE_PUBLIC_ED_KEY }}
+          RELEASE_NOTES_FILE: ${{ github.workspace }}/build/release-notes.md
+          APPCAST_URL: https://azwandi.github.io/netlify-status-bar/appcast.xml
+          DOWNLOAD_URL_PREFIX: https://github.com/${{ github.repository }}/releases/download/${{ github.event.release.tag_name }}/
+        run: |
+          mkdir -p build
+          printf '%s\n' "${{ github.event.release.body }}" > "$RELEASE_NOTES_FILE"
+          xcodebuild -resolvePackageDependencies -project NetlifyStatusBar.xcodeproj
+          ./scripts/publish_sparkle_update.sh "${{ github.event.release.tag_name }}"
+
+      - name: Upload update archive to GitHub release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh release upload "${{ github.event.release.tag_name }}" build/updates/*.zip --clobber
+
+      - name: Commit appcast to main
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add docs/appcast.xml docs/.nojekyll
+          if git diff --cached --quiet; then
+            echo "No appcast changes to commit."
+            exit 0
+          fi
+          git commit -m "chore: publish Sparkle appcast for ${{ github.event.release.tag_name }}"
+          git push origin HEAD:main
