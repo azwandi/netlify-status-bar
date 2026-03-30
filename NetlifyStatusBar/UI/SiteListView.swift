@@ -4,6 +4,7 @@ import SwiftUI
 struct SiteListView: View {
     @Environment(DeployMonitor.self) private var monitor
     @Environment(\.openWindow) private var openWindow
+    @State private var hasToken: Bool = (try? KeychainHelper.read()) != nil
 
     private var activeSites: [Site] {
         monitor.sites.filter { monitor.deploys[$0.id]?.state.isActive == true }
@@ -102,10 +103,6 @@ struct SiteListView: View {
     }
 
     // MARK: - Helpers
-
-    private var hasToken: Bool {
-        (try? KeychainHelper.read()) != nil
-    }
 
     private func sectionHeader(_ title: String) -> some View {
         Text(title.uppercased())

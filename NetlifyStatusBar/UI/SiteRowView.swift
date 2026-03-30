@@ -7,6 +7,11 @@ struct SiteRowView: View {
     @State private var now: Date = Date()
 
     private let timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
+    private static let relativeFormatter: RelativeDateTimeFormatter = {
+        let f = RelativeDateTimeFormatter()
+        f.unitsStyle = .abbreviated
+        return f
+    }()
 
     var body: some View {
         Button {
@@ -82,8 +87,6 @@ struct SiteRowView: View {
     }
 
     private func relativeString(from date: Date) -> String {
-        let formatter = RelativeDateTimeFormatter()
-        formatter.unitsStyle = .abbreviated
-        return formatter.localizedString(for: date, relativeTo: now)
+        Self.relativeFormatter.localizedString(for: date, relativeTo: now)
     }
 }
