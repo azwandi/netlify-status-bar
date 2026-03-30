@@ -6,8 +6,16 @@ struct SiteListView: View {
     @Environment(\.openWindow) private var openWindow
     @State private var hasToken: Bool = (try? KeychainHelper.read()) != nil
 
+    private var sortedSites: [Site] {
+        monitor.sites.sorted {
+            let a = monitor.deploys[$0.id]?.createdAt ?? .distantPast
+            let b = monitor.deploys[$1.id]?.createdAt ?? .distantPast
+            return a > b
+        }
+    }
+
     private var activeSites: [Site] {
-        monitor.sites.filter { monitor.deploys[$0.id]?.state.isActive == true }
+        sortedSites.filter { monitor.deploys[$0.id]?.state.isActive == true }
     }
 
     var body: some View {
@@ -28,7 +36,7 @@ struct SiteListView: View {
 
     private var noTokenView: some View {
         Button("Set up token…") {
-            openWindow(id: "preferences")
+            openPreferences()
         }
         .padding()
     }
@@ -48,7 +56,7 @@ struct SiteListView: View {
     private var siteListContent: some View {
         // Error banners
         if monitor.isUnauthorized {
-            errorRow("Token invalid or expired") { openWindow(id: "preferences") }
+            errorRow("Token invalid or expired") { openPreferences() }
         } else if monitor.lastError != nil {
             Text("⚠ Last refresh failed")
                 .font(.system(size: 12))
@@ -63,46 +71,41 @@ struct SiteListView: View {
             ForEach(activeSites) { site in
                 SiteRowView(site: site, deploy: monitor.deploys[site.id])
                     .padding(.horizontal, 14)
-                    .padding(.vertical, 5)
+                    .padding(.vertical, 3)
             }
             Divider().padding(.vertical, 4)
         }
 
         // All sites section
         sectionHeader("All Sites")
-        ScrollView {
-            VStack(spacing: 0) {
-                ForEach(monitor.sites) { site in
-                    SiteRowView(site: site, deploy: monitor.deploys[site.id])
-                        .padding(.horizontal, 14)
-                        .padding(.vertical, 5)
-                }
-            }
+        ForEach(Array(sortedSites.prefix(15))) { site in
+            SiteRowView(site: site, deploy: monitor.deploys[site.id])
+                .padding(.horizontal, 14)
+                .padding(.vertical, 3)
         }
-        .frame(maxHeight: 340)
 
         Divider().padding(.vertical, 4)
 
         // Footer actions
-        Group {
-            Button("Refresh Now") {
-                Task { await monitor.pollDeploys() }
-            }
-            Button("Preferences…") {
-                openWindow(id: "preferences")
-            }
-            Divider()
-            Button("Quit") {
-                NSApplication.shared.terminate(nil)
-            }
+        footerButton("Refresh Now") {
+            Task { await monitor.pollDeploys() }
         }
-        .padding(.horizontal, 14)
-        .padding(.vertical, 4)
-        .buttonStyle(.plain)
-        .font(.system(size: 13))
+        footerButton("Preferences…") {
+            openPreferences()
+        }
+        Divider().padding(.vertical, 2)
+        footerButton("Quit") {
+            NSApplication.shared.terminate(nil)
+        }
+        .padding(.bottom, 4)
     }
 
     // MARK: - Helpers
+
+    private func openPreferences() {
+        openWindow(id: "preferences")
+        NSApp.activate(ignoringOtherApps: true)
+    }
 
     private func sectionHeader(_ title: String) -> some View {
         Text(title.uppercased())
@@ -125,5 +128,34 @@ struct SiteListView: View {
         .buttonStyle(.plain)
         .padding(.horizontal, 14)
         .padding(.vertical, 6)
+    }
+
+    private func footerButton(_ label: String, action: @escaping () -> Void) -> some View {
+        FooterButton(label: label, action: action)
+    }
+}
+
+private struct FooterButton: View {
+    let label: String
+    let action: () -> Void
+    @State private var isHovered = false
+
+    var body: some View {
+        Button(action: action) {
+            Text(label)
+                .font(.system(size: 13))
+                .frame(maxWidth: .infinity, alignment: .leading)
+                .padding(.horizontal, 10)
+                .padding(.vertical, 5)
+                .background(
+                    RoundedRectangle(cornerRadius: 5)
+                        .fill(isHovered ? Color(nsColor: .selectedContentBackgroundColor) : Color.clear)
+                )
+                .foregroundStyle(isHovered ? Color(nsColor: .selectedMenuItemTextColor) : .primary)
+        }
+        .buttonStyle(.plain)
+        .focusEffectDisabled()
+        .padding(.horizontal, 6)
+        .onHover { isHovered = $0 }
     }
 }

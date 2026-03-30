@@ -33,7 +33,6 @@ final class DeployMonitor {
         }
         client = NetlifyClient(token: token)
         startPathMonitor()
-        Task { await refreshSites() }
         startDeployPolling()
         startSiteRefreshTimer()
     }
@@ -46,7 +45,6 @@ final class DeployMonitor {
         lastError = nil
         isLoading = true
         pathMonitor = NWPathMonitor()
-        Task { await refreshSites() }
         startDeployPolling()
         startSiteRefreshTimer()
         startPathMonitor()
@@ -91,6 +89,7 @@ final class DeployMonitor {
 
     private func startDeployPolling() {
         deployPollTask = Task {
+            await refreshSites()
             while !Task.isCancelled {
                 await pollDeploys()
                 let interval: Double

@@ -6,11 +6,13 @@ A macOS menu bar app that monitors all Netlify deployments across your account �
 
 ## Features
 
-- **Live status bar** — shows your most recent deploy with name, status, and a live elapsed/relative timer
-- **All projects** — monitors every site in your Netlify account simultaneously
-- **Adaptive polling** — checks every 10s during active builds, 60s when idle
+- **Colour-coded status dot** — green (deployed), amber (building), red (failed) in the menu bar
+- **Live status bar** — shows the most recent deploy with project name and elapsed/relative time; hides text after 30 minutes of inactivity
+- **Pulsing indicator** — dot animates while a build is in progress
+- **All projects** — monitors every site in your Netlify account simultaneously, sorted by latest activity
+- **Adaptive polling** — checks every 10s during active builds, 60s when idle; starts immediately on launch
 - **Notifications** — get notified when a deploy starts, succeeds, or fails
-- **Grouped dropdown** — active deploys pinned at the top, all sites listed below
+- **Grouped dropdown** — active deploys pinned at the top, up to 15 recent sites listed below
 - **Click to open** — clicking any site row opens it in the Netlify dashboard
 
 ## Requirements
