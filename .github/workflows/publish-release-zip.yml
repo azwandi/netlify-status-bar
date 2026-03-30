@@ -1,4 +1,4 @@
-name: Publish Release Zip
+name: Publish Release Assets
 
 on:
   release:
@@ -34,8 +34,23 @@ jobs:
             build/NetlifyStatusBar.xcarchive/Products/Applications/NetlifyStatusBar.app \
             "build/release-assets/NetlifyStatusBar-${{ github.event.release.tag_name }}.zip"
 
-      - name: Upload zip to release
+      - name: Package app dmg
+        run: |
+          mkdir -p build/dmg-root
+          rm -rf build/dmg-root/NetlifyStatusBar.app build/dmg-root/Applications
+          ditto \
+            build/NetlifyStatusBar.xcarchive/Products/Applications/NetlifyStatusBar.app \
+            build/dmg-root/NetlifyStatusBar.app
+          ln -s /Applications build/dmg-root/Applications
+          hdiutil create \
+            -volname "Netlify Status Bar" \
+            -srcfolder build/dmg-root \
+            -ov \
+            -format UDZO \
+            "build/release-assets/NetlifyStatusBar-${{ github.event.release.tag_name }}.dmg"
+
+      - name: Upload release assets
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
-          gh release upload "${{ github.event.release.tag_name }}" build/release-assets/*.zip --clobber
+          gh release upload "${{ github.event.release.tag_name }}" build/release-assets/* --clobber

@@ -54,7 +54,8 @@ If a newer release is found and it includes a `.zip` asset containing the app, N
 ### Release Requirements
 
 - Releases should include a macOS zip asset such as `NetlifyStatusBar-v1.2.0.zip`
-- The helper workflow at [publish-release-zip.yml](/Users/azwandi/Development/netlify-status-bar/.github/workflows/publish-release-zip.yml) can attach that asset automatically when a GitHub release is published
+- Releases can also include a DMG asset such as `NetlifyStatusBar-v1.2.0.dmg` for manual installs
+- The helper workflow at [publish-release-zip.yml](/Users/azwandi/Development/netlify-status-bar/.github/workflows/publish-release-zip.yml) uploads both assets automatically when a GitHub release is published
 - If the app is installed in a protected location, macOS may prompt for administrator access during the update
 
 ## Architecture
