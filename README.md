@@ -9,6 +9,7 @@ A lightweight macOS menu bar app for monitoring Netlify deployments across your 
 - Color-coded status dot in the menu bar
 - Live status text for the most recent deploy
 - Pulsing indicator while builds are active
+- Disabled-state menu bar label that follows the current macOS light/dark appearance
 - All Netlify sites in one dropdown
 - Account header showing the current user and account/team names
 - Stateful polling with active, idle, and disabled modes

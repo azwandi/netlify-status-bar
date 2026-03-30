@@ -25,6 +25,7 @@ struct MenuBarLabel: View {
             if monitor.pollingState == .disabled {
                 Text("Netlify")
                     .font(.system(size: 11))
+                    .foregroundStyle(Color(nsColor: .labelColor))
             } else {
                 HStack(spacing: 4) {
                     Image(nsImage: dotImage(color: dotNSColor))
