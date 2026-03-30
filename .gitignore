@@ -1,3 +1,5 @@
+build/
+*.dmg
 *.xcuserstate
 xcuserdata/
 .DS_Store
