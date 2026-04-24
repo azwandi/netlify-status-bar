@@ -30,10 +30,7 @@ struct SiteRowView: View {
                         .monospacedDigit()
                 }
             }
-            .contentShape(Rectangle())
         }
-        .buttonStyle(.plain)
-        .focusEffectDisabled()
         .onReceive(timer) { now = $0 }
     }
 

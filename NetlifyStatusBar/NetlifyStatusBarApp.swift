@@ -14,7 +14,7 @@ struct NetlifyStatusBarApp: App {
             MenuBarLabel()
                 .environment(monitor)
         }
-        .menuBarExtraStyle(.window)
+        .menuBarExtraStyle(.menu)
 
         Window("Preferences", id: "preferences") {
             PreferencesView()

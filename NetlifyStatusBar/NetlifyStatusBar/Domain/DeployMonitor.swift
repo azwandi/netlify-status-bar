@@ -12,7 +12,7 @@ final class DeployMonitor {
         case disabled
     }
 
-    private static let activeDuration: TimeInterval = 120
+    private static let activeDuration: TimeInterval = 600
     private static let idleDuration: TimeInterval = 1800
 
     // MARK: - Published state
@@ -162,7 +162,7 @@ final class DeployMonitor {
                     interval = 300
                 } else {
                     rateLimitBackoffUntil = nil
-                    interval = pollingState == .active ? 10 : 60
+                    interval = pollingState == .active ? 5 : 60
                 }
                 do {
                     try await Task.sleep(for: .seconds(interval))

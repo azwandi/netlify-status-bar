@@ -36,7 +36,7 @@ struct SiteListView: View {
     }
 
     var body: some View {
-        VStack(alignment: .leading, spacing: 0) {
+        Group {
             if !hasToken {
                 noTokenView
             } else if monitor.isLoading {
@@ -45,7 +45,6 @@ struct SiteListView: View {
                 siteListContent
             }
         }
-        .frame(width: 300)
         .onAppear {
             monitor.start()
             monitor.wakeIfDisabled()
@@ -58,104 +57,72 @@ struct SiteListView: View {
         Button("Set up token…") {
             openPreferences()
         }
-        .padding()
     }
 
     private var loadingView: some View {
-        HStack {
-            ProgressView()
-                .scaleEffect(0.7)
-            Text("Loading sites…")
-                .font(.system(size: 13))
-                .foregroundStyle(.secondary)
-        }
-        .padding()
+        Button("Loading sites…") {}
+            .disabled(true)
     }
 
     @ViewBuilder
     private var siteListContent: some View {
         if let accountDisplayName = monitor.accountDisplayName {
-            VStack(alignment: .leading, spacing: 2) {
-                Text("NETLIFY ACCOUNT")
-                    .font(.system(size: 10, weight: .semibold))
-                    .foregroundStyle(.secondary)
-                Text(accountDisplayName)
-                    .font(.system(size: 12))
-                    .lineLimit(2)
-                    .fixedSize(horizontal: false, vertical: true)
-            }
-            .padding(.horizontal, 14)
-            .padding(.top, 10)
-            .padding(.bottom, 8)
-
-            Divider().padding(.bottom, 4)
+            Text(accountDisplayName)
+            Divider()
         }
 
         // Error banners
         if monitor.isUnauthorized {
-            errorRow("Token invalid or expired") { openPreferences() }
+            Button("⚠ Token invalid or expired") { openPreferences() }
         } else if monitor.lastError != nil {
             Text("⚠ Last refresh failed")
-                .font(.system(size: 12))
-                .foregroundStyle(.secondary)
-                .padding(.horizontal, 14)
-                .padding(.vertical, 8)
         }
 
         // Active deploys section
         if !activeSites.isEmpty {
-            sectionHeader("Active Deploys")
+            Text("Active Deploys")
             ForEach(activeSites) { site in
                 SiteRowView(site: site, deploy: monitor.deploys[site.id])
-                    .padding(.horizontal, 14)
-                    .padding(.vertical, 3)
             }
-            Divider().padding(.vertical, 4)
+            Divider()
         }
 
         // All sites section
-        sectionHeader("All Sites")
+        Text("All Sites")
         ForEach(Array(sortedSites.prefix(15))) { site in
             SiteRowView(site: site, deploy: monitor.deploys[site.id])
-                .padding(.horizontal, 14)
-                .padding(.vertical, 3)
         }
 
-        Divider().padding(.vertical, 4)
+        Divider()
 
         // Footer actions
-        footerButton("Check for Updates…") {
+        Button("Check for Updates…") {
             Task { await updater.checkForUpdates() }
         }
         .disabled(updater.isCheckingForUpdates)
-        footerButton("Refresh Now") {
+        
+        Button("Refresh Now") {
             Task { await monitor.refreshNow() }
         }
-        footerButton("Disable") {
+        
+        Button("Disable") {
             monitor.disable()
         }
-        footerButton("Preferences…") {
+        
+        Button("Preferences…") {
             openPreferences()
         }
-        Divider().padding(.vertical, 2)
+        
+        Divider()
+        
         Text(versionText)
-            .font(.system(size: 11))
-            .foregroundStyle(.secondary)
-            .padding(.horizontal, 16)
-            .padding(.top, 4)
-            .padding(.bottom, updater.statusMessage == nil ? 2 : 0)
         if let statusMessage = updater.statusMessage {
             Text(statusMessage)
-                .font(.system(size: 11))
-                .foregroundStyle(.secondary)
-                .padding(.horizontal, 16)
-                .padding(.top, 2)
-                .padding(.bottom, 2)
         }
-        footerButton("Quit") {
+        
+        Button("Quit") {
             NSApplication.shared.terminate(nil)
         }
-        .padding(.bottom, 4)
     }
 
     // MARK: - Helpers
@@ -163,57 +130,5 @@ struct SiteListView: View {
     private func openPreferences() {
         openWindow(id: "preferences")
         NSApp.activate(ignoringOtherApps: true)
-    }
-
-    private func sectionHeader(_ title: String) -> some View {
-        Text(title.uppercased())
-            .font(.system(size: 10, weight: .semibold))
-            .foregroundStyle(.secondary)
-            .padding(.horizontal, 14)
-            .padding(.top, 8)
-            .padding(.bottom, 3)
-    }
-
-    private func errorRow(_ message: String, action: @escaping () -> Void) -> some View {
-        Button(action: action) {
-            HStack {
-                Image(systemName: "exclamationmark.triangle.fill")
-                    .foregroundStyle(.orange)
-                Text(message)
-                    .font(.system(size: 13))
-            }
-        }
-        .buttonStyle(.plain)
-        .padding(.horizontal, 14)
-        .padding(.vertical, 6)
-    }
-
-    private func footerButton(_ label: String, action: @escaping () -> Void) -> some View {
-        FooterButton(label: label, action: action)
-    }
-}
-
-private struct FooterButton: View {
-    let label: String
-    let action: () -> Void
-    @State private var isHovered = false
-
-    var body: some View {
-        Button(action: action) {
-            Text(label)
-                .font(.system(size: 13))
-                .frame(maxWidth: .infinity, alignment: .leading)
-                .padding(.horizontal, 10)
-                .padding(.vertical, 5)
-                .background(
-                    RoundedRectangle(cornerRadius: 5)
-                        .fill(isHovered ? Color(nsColor: .selectedContentBackgroundColor) : Color.clear)
-                )
-                .foregroundStyle(isHovered ? Color(nsColor: .selectedMenuItemTextColor) : .primary)
-        }
-        .buttonStyle(.plain)
-        .focusEffectDisabled()
-        .padding(.horizontal, 6)
-        .onHover { isHovered = $0 }
     }
 }

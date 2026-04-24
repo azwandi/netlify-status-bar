@@ -33,7 +33,7 @@ The app starts monitoring immediately after the token is saved.
 
 ## Polling Behavior
 
-- `ACTIVE`: polls every 10 seconds for 2 minutes after launch or after a newly detected deploy
+- `ACTIVE`: polls every 5 seconds for 10 minutes after launch or after a newly detected deploy
 - `IDLE`: polls every 60 seconds for up to 30 minutes once activity cools down
 - `DISABLED`: stops polling and shows `Netlify` in the menu bar until you open the menu or choose **Refresh Now**
 
@@ -61,7 +61,7 @@ If a newer release is found and it includes a `.zip` asset containing the app, N
 
 ## Architecture
 
-- SwiftUI `MenuBarExtra` with `.window` style
+- SwiftUI `MenuBarExtra` with `.menu` style
 - `@Observable` `DeployMonitor` for polling and UI state
 - `actor` `NetlifyClient` for Netlify API requests
 - Keychain storage for the Netlify token
