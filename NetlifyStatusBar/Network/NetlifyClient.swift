@@ -146,12 +146,14 @@ private struct APIDeploy: Decodable {
     let branch: String
     let createdAt: Date
     let publishedAt: Date?
+    let commitRef: String?
 
     enum CodingKeys: String, CodingKey {
         case id, state, branch
         case siteId = "site_id"
         case createdAt = "created_at"
         case publishedAt = "published_at"
+        case commitRef = "commit_ref"
     }
 
     func toDeploy() -> Deploy {
@@ -161,7 +163,8 @@ private struct APIDeploy: Decodable {
             state: DeployState(apiString: state),
             branch: branch,
             createdAt: createdAt,
-            deployedAt: publishedAt
+            deployedAt: publishedAt,
+            commitRef: commitRef
         )
     }
 }

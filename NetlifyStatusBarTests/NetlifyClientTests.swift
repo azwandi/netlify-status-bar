@@ -96,13 +96,15 @@ final class NetlifyClientTests: XCTestCase {
                 "site_id": "site1",
                 "state": "building",
                 "branch": "main",
-                "created_at": now
+                "created_at": now,
+                "commit_ref": "a1b2c3d4e5f6"
             ]])
         }
         let deploy = try await client.fetchLatestDeploy(siteId: "site1")
         XCTAssertNotNil(deploy)
         XCTAssertEqual(deploy?.state, .building)
         XCTAssertEqual(deploy?.siteId, "site1")
+        XCTAssertEqual(deploy?.commitRef, "a1b2c3d4e5f6")
         XCTAssertTrue(deploy!.state.isActive)
     }
 

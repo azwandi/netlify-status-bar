@@ -8,6 +8,25 @@ struct Deploy: Identifiable, Equatable {
     let branch: String
     let createdAt: Date
     let deployedAt: Date?
+    let commitRef: String?   // git commit SHA of the deployed commit
+
+    init(
+        id: String,
+        siteId: String,
+        state: DeployState,
+        branch: String,
+        createdAt: Date,
+        deployedAt: Date?,
+        commitRef: String? = nil
+    ) {
+        self.id = id
+        self.siteId = siteId
+        self.state = state
+        self.branch = branch
+        self.createdAt = createdAt
+        self.deployedAt = deployedAt
+        self.commitRef = commitRef
+    }
 }
 
 enum DeployState: String, Equatable {

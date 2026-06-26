@@ -90,7 +90,7 @@ struct SiteListView: View {
         // All sites section
         Text("All Sites")
         ForEach(Array(sortedSites.prefix(15))) { site in
-            SiteRowView(site: site, deploy: monitor.deploys[site.id])
+            SiteRowView(site: site, deploy: monitor.deploys[site.id], showsCommitRef: true)
         }
 
         Divider()

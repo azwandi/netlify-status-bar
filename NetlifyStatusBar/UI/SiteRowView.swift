@@ -4,6 +4,7 @@ import SwiftUI
 struct SiteRowView: View {
     let site: Site
     let deploy: Deploy?
+    var showsCommitRef: Bool = false
     @State private var now: Date = Date()
 
     private let timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
@@ -21,6 +22,11 @@ struct SiteRowView: View {
                     Text(statusLabel(for: deploy.state))
                         .font(.system(size: 11))
                         .foregroundStyle(stateColor(for: deploy.state))
+                }
+                if showsCommitRef, let ref = shortCommitRef {
+                    Text(ref)
+                        .font(.system(size: 11, design: .monospaced))
+                        .foregroundStyle(.secondary)
                 }
                 Spacer(minLength: 8)
                 if let deploy {
@@ -52,6 +58,12 @@ struct SiteRowView: View {
             }
         }
         .font(.system(size: 11))
+    }
+
+    /// Short 7-character form of the deployed commit SHA, or nil if unavailable.
+    private var shortCommitRef: String? {
+        guard let ref = deploy?.commitRef, !ref.isEmpty else { return nil }
+        return String(ref.prefix(7))
     }
 
     private func statusLabel(for state: DeployState) -> String {
