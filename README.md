@@ -15,7 +15,7 @@ A lightweight macOS menu bar app for monitoring Netlify deployments across your 
 - Account header showing the current user and account/team names
 - Stateful polling with active, idle, and disabled modes
 - Manual `Refresh Now`, `Disable`, and `Check for Updates…` actions
-- Built-in updater that pulls newer builds from GitHub Releases
+- Built-in updater that pulls newer builds from GitHub Releases, with a confirmation dialog before installing
 - Local notifications for deploy start, success, and failure
 - Click any site row to open it in the Netlify dashboard
 
@@ -51,7 +51,12 @@ If the project already exists, you can open `NetlifyStatusBar.xcodeproj` directl
 
 The app checks GitHub Releases only when you choose **Check for Updates…** from the menu.
 
-If a newer release is found and it includes a `.zip` asset containing the app, Netlify Status Bar downloads it, replaces the current app bundle, and relaunches.
+A dialog then reports the result:
+
+- **Up to date** — a confirmation that you're already on the latest version.
+- **Update available** — shows the new version number and asks whether to install now, with **Install and Relaunch** and **Later** buttons. Nothing is downloaded until you confirm.
+
+If you choose **Install and Relaunch** and the release includes a `.zip` asset containing the app, Netlify Status Bar downloads it, replaces the current app bundle, and relaunches. Download or install failures are reported in the same dialog.
 
 ### Release Requirements
 

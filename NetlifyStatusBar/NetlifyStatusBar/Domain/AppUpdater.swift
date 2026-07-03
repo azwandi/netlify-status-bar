@@ -31,11 +31,24 @@ final class AppUpdater {
 
             guard Self.isNewerVersion(release.tagName, than: currentVersion) else {
                 statusMessage = "You're up to date"
+                presentInfo(
+                    title: "You're up to date",
+                    message: "NetlifyStatusBar \(currentVersion) is the latest version."
+                )
                 return
             }
 
             guard let asset = Self.preferredAsset(from: release.assets) else {
                 statusMessage = "No installable update found in the latest release"
+                presentInfo(
+                    title: "Update available",
+                    message: "Version \(release.tagName) is available, but the release doesn't contain an installable download."
+                )
+                return
+            }
+
+            guard confirmInstall(version: release.tagName, currentVersion: currentVersion) else {
+                statusMessage = "Update \(release.tagName) available — not installed"
                 return
             }
 
@@ -50,7 +63,34 @@ final class AppUpdater {
             statusMessage = "Installing update and relaunching…"
         } catch {
             statusMessage = "Update failed: \(error.localizedDescription)"
+            presentInfo(title: "Update failed", message: error.localizedDescription)
         }
+    }
+
+    // MARK: - Modal dialogs
+
+    /// Asks the user whether to download and install an available update.
+    /// - Returns: `true` if the user chose to install now.
+    private func confirmInstall(version: String, currentVersion: String) -> Bool {
+        NSApp.activate(ignoringOtherApps: true)
+        let alert = NSAlert()
+        alert.messageText = "Update available"
+        alert.informativeText = "Version \(version) is available (you have \(currentVersion)). "
+            + "Do you want to download and install it now? The app will relaunch after installing."
+        alert.alertStyle = .informational
+        alert.addButton(withTitle: "Install and Relaunch")
+        alert.addButton(withTitle: "Later")
+        return alert.runModal() == .alertFirstButtonReturn
+    }
+
+    private func presentInfo(title: String, message: String) {
+        NSApp.activate(ignoringOtherApps: true)
+        let alert = NSAlert()
+        alert.messageText = title
+        alert.informativeText = message
+        alert.alertStyle = .informational
+        alert.addButton(withTitle: "OK")
+        alert.runModal()
     }
 
     private func fetchLatestRelease() async throws -> GitHubRelease {
