@@ -5,11 +5,13 @@
 	<key>CFBundleIdentifier</key>
 	<string>com.azwandi.NetlifyStatusBar</string>
 	<key>CFBundleName</key>
-	<string>NetlifyStatusBar</string>
+	<string>Netlify Status</string>
+	<key>CFBundleDisplayName</key>
+	<string>Netlify Status</string>
 	<key>CFBundleShortVersionString</key>
-	<string>1.4.0</string>
+	<string>1.4.1</string>
 	<key>CFBundleVersion</key>
-	<string>8</string>
+	<string>9</string>
 	<key>LSMinimumSystemVersion</key>
 	<string>14.0</string>
 	<key>LSUIElement</key>

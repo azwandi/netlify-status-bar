@@ -21,6 +21,7 @@
 		81CC2D9C1E4BD2151DF18DC4 /* NetlifyStatusBarTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C558737772F9BB842F88F47 /* NetlifyStatusBarTests.swift */; };
 		8DEA73A316B47F985F2EA11B /* Deploy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D25563536FB7B827151D34A /* Deploy.swift */; };
 		926267ED9534EE87B5726C74 /* NetlifyClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD20AEB8B020B8544521681A /* NetlifyClient.swift */; };
+		9BD8CE71E67658B691EFE341 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 04722FE50B02024CA0FB73FC /* Assets.xcassets */; };
 		ADA0BAF5C43E9CA1AC223FD9 /* DeployMonitorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4EDDD6C065AF11728668E8C1 /* DeployMonitorTests.swift */; };
 		D04538818F0E222BFB58A329 /* PreferencesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98BC400B0CA129F2633DFBD0 /* PreferencesView.swift */; };
 		F4F8DB735694AFF28C5E3AC9 /* ModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23A3675CC12EA0EA5E6C7204 /* ModelTests.swift */; };
@@ -38,6 +39,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		04722FE50B02024CA0FB73FC /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		1D25563536FB7B827151D34A /* Deploy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Deploy.swift; sourceTree = "<group>"; };
 		23A3675CC12EA0EA5E6C7204 /* ModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModelTests.swift; sourceTree = "<group>"; };
 		2A7598346774B4E445FB8B1A /* NetlifyClientTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetlifyClientTests.swift; sourceTree = "<group>"; };
@@ -157,6 +159,7 @@
 		E0AE910020106138D6E371F4 /* NetlifyStatusBar */ = {
 			isa = PBXGroup;
 			children = (
+				04722FE50B02024CA0FB73FC /* Assets.xcassets */,
 				41C647BB81B6DFB474EA4DFE /* Info.plist */,
 				933DAE7FBC237F7E4929BA2D /* NetlifyStatusBar.entitlements */,
 				C2B03DDE1BBF0E4068DBA6EE /* NetlifyStatusBarApp.swift */,
@@ -195,6 +198,7 @@
 			buildConfigurationList = 90388BAEC7C7E519CF05FAFF /* Build configuration list for PBXNativeTarget "NetlifyStatusBar" */;
 			buildPhases = (
 				CC5CBB3B41EA8A1A7B81D922 /* Sources */,
+				78F6EE5AC0368ED2A8E37486 /* Resources */,
 			);
 			buildRules = (
 			);
@@ -245,6 +249,17 @@
 			);
 		};
 /* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		78F6EE5AC0368ED2A8E37486 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				9BD8CE71E67658B691EFE341 /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		24429EF584D17C47168AE24C /* Sources */ = {
@@ -304,6 +319,7 @@
 				);
 				MACOSX_DEPLOYMENT_TARGET = 14.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.azwandi.NetlifyStatusBar;
+				PRODUCT_NAME = "Netlify Status";
 				SDKROOT = macosx;
 			};
 			name = Debug;
@@ -462,6 +478,7 @@
 				);
 				MACOSX_DEPLOYMENT_TARGET = 14.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.azwandi.NetlifyStatusBar;
+				PRODUCT_NAME = "Netlify Status";
 				SDKROOT = macosx;
 			};
 			name = Release;

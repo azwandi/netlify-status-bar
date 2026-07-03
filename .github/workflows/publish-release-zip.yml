@@ -34,16 +34,16 @@ jobs:
         run: |
           mkdir -p build/release-assets
           ditto -c -k --sequesterRsrc --keepParent \
-            build/NetlifyStatusBar.xcarchive/Products/Applications/NetlifyStatusBar.app \
+            "build/NetlifyStatusBar.xcarchive/Products/Applications/Netlify Status.app" \
             "build/release-assets/NetlifyStatusBar-${{ github.event.release.tag_name }}.zip"
 
       - name: Package app dmg
         run: |
           mkdir -p build/dmg-root
-          rm -rf build/dmg-root/NetlifyStatusBar.app build/dmg-root/Applications
+          rm -rf "build/dmg-root/Netlify Status.app" build/dmg-root/Applications
           ditto \
-            build/NetlifyStatusBar.xcarchive/Products/Applications/NetlifyStatusBar.app \
-            build/dmg-root/NetlifyStatusBar.app
+            "build/NetlifyStatusBar.xcarchive/Products/Applications/Netlify Status.app" \
+            "build/dmg-root/Netlify Status.app"
           ln -s /Applications build/dmg-root/Applications
           hdiutil create \
             -volname "Netlify Status Bar" \

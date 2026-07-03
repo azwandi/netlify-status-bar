@@ -25,9 +25,11 @@ targets:
     settings:
       base:
         PRODUCT_BUNDLE_IDENTIFIER: com.azwandi.NetlifyStatusBar
+        PRODUCT_NAME: Netlify Status
         INFOPLIST_FILE: NetlifyStatusBar/Info.plist
         CODE_SIGN_ENTITLEMENTS: NetlifyStatusBar/NetlifyStatusBar.entitlements
         ENABLE_HARDENED_RUNTIME: YES
+        ASSETCATALOG_COMPILER_APPICON_NAME: AppIcon
 
   NetlifyStatusBarTests:
     type: bundle.unit-test
