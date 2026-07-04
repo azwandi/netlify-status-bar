@@ -319,6 +319,7 @@
 				);
 				MACOSX_DEPLOYMENT_TARGET = 14.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.azwandi.NetlifyStatusBar;
+				PRODUCT_MODULE_NAME = NetlifyStatusBar;
 				PRODUCT_NAME = "Netlify Status";
 				SDKROOT = macosx;
 			};
@@ -387,6 +388,7 @@
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				COMBINE_HIDPI_IMAGES = YES;
+				GENERATE_INFOPLIST_FILE = YES;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/../Frameworks",
@@ -395,7 +397,7 @@
 				MACOSX_DEPLOYMENT_TARGET = 14.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.azwandi.NetlifyStatusBarTests;
 				SDKROOT = macosx;
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/NetlifyStatusBar.app/Contents/MacOS/NetlifyStatusBar";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Netlify Status.app/Contents/MacOS/Netlify Status";
 			};
 			name = Debug;
 		};
@@ -478,6 +480,7 @@
 				);
 				MACOSX_DEPLOYMENT_TARGET = 14.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.azwandi.NetlifyStatusBar;
+				PRODUCT_MODULE_NAME = NetlifyStatusBar;
 				PRODUCT_NAME = "Netlify Status";
 				SDKROOT = macosx;
 			};
@@ -488,6 +491,7 @@
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				COMBINE_HIDPI_IMAGES = YES;
+				GENERATE_INFOPLIST_FILE = YES;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/../Frameworks",
@@ -496,7 +500,7 @@
 				MACOSX_DEPLOYMENT_TARGET = 14.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.azwandi.NetlifyStatusBarTests;
 				SDKROOT = macosx;
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/NetlifyStatusBar.app/Contents/MacOS/NetlifyStatusBar";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Netlify Status.app/Contents/MacOS/Netlify Status";
 			};
 			name = Release;
 		};

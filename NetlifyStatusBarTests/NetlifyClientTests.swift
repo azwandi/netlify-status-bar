@@ -116,6 +116,34 @@ final class NetlifyClientTests: XCTestCase {
         XCTAssertNil(deploy)
     }
 
+    func testCanceledDeployReportsAsCancelledNotError() async throws {
+        // Netlify returns state "error" with a "Canceled build" message when a
+        // deploy is canceled; it should surface as .cancelled, not .error.
+        let now = ISO8601DateFormatter().string(from: Date())
+        MockURLProtocol.requestHandler = { _ in
+            MockURLProtocol.jsonResponse(statusCode: 200, json: [[
+                "id": "d1", "site_id": "s1", "state": "error",
+                "branch": "main", "created_at": now,
+                "error_message": "Canceled build"
+            ]])
+        }
+        let deploy = try await client.fetchLatestDeploy(siteId: "s1")
+        XCTAssertEqual(deploy?.state, .cancelled)
+    }
+
+    func testGenuineErrorStaysError() async throws {
+        let now = ISO8601DateFormatter().string(from: Date())
+        MockURLProtocol.requestHandler = { _ in
+            MockURLProtocol.jsonResponse(statusCode: 200, json: [[
+                "id": "d1", "site_id": "s1", "state": "error",
+                "branch": "main", "created_at": now,
+                "error_message": "Build script returned non-zero exit code: 2"
+            ]])
+        }
+        let deploy = try await client.fetchLatestDeploy(siteId: "s1")
+        XCTAssertEqual(deploy?.state, .error)
+    }
+
     func testFetchLatestDeployUnknownStateIsHandled() async throws {
         let now = ISO8601DateFormatter().string(from: Date())
         MockURLProtocol.requestHandler = { _ in

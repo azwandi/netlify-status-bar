@@ -147,6 +147,7 @@ private struct APIDeploy: Decodable {
     let createdAt: Date
     let publishedAt: Date?
     let commitRef: String?
+    let errorMessage: String?
 
     enum CodingKeys: String, CodingKey {
         case id, state, branch
@@ -154,17 +155,32 @@ private struct APIDeploy: Decodable {
         case createdAt = "created_at"
         case publishedAt = "published_at"
         case commitRef = "commit_ref"
+        case errorMessage = "error_message"
     }
 
     func toDeploy() -> Deploy {
         Deploy(
             id: id,
             siteId: siteId,
-            state: DeployState(apiString: state),
+            state: resolvedState,
             branch: branch,
             createdAt: createdAt,
             deployedAt: publishedAt,
             commitRef: commitRef
         )
+    }
+
+    /// Netlify reports canceled deploys as `state: "error"` with an
+    /// `error_message` like "Canceled build", so they're indistinguishable
+    /// from real failures on `state` alone. Disambiguate here so the UI can
+    /// show "cancelled" rather than "failed".
+    private var resolvedState: DeployState {
+        let parsed = DeployState(apiString: state)
+        if parsed == .error,
+           let message = errorMessage,
+           message.range(of: "cancel", options: .caseInsensitive) != nil {
+            return .cancelled
+        }
+        return parsed
     }
 }

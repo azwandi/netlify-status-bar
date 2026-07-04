@@ -26,6 +26,9 @@ targets:
       base:
         PRODUCT_BUNDLE_IDENTIFIER: com.azwandi.NetlifyStatusBar
         PRODUCT_NAME: Netlify Status
+        # Keep the Swift module name stable ("Netlify Status" would sanitize to
+        # Netlify_Status and break `@testable import NetlifyStatusBar`).
+        PRODUCT_MODULE_NAME: NetlifyStatusBar
         INFOPLIST_FILE: NetlifyStatusBar/Info.plist
         CODE_SIGN_ENTITLEMENTS: NetlifyStatusBar/NetlifyStatusBar.entitlements
         ENABLE_HARDENED_RUNTIME: YES
@@ -44,6 +47,12 @@ targets:
     settings:
       base:
         PRODUCT_BUNDLE_IDENTIFIER: com.azwandi.NetlifyStatusBarTests
+        GENERATE_INFOPLIST_FILE: YES
+        # App product is "Netlify Status.app" (PRODUCT_NAME override), so the
+        # auto-derived TEST_HOST from the target name is wrong — point it at
+        # the real product path.
+        TEST_HOST: "$(BUILT_PRODUCTS_DIR)/Netlify Status.app/Contents/MacOS/Netlify Status"
+        BUNDLE_LOADER: "$(TEST_HOST)"
 
 schemes:
   NetlifyStatusBar:
